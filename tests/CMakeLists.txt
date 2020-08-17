@@ -1,14 +1,26 @@
+find_program(GCOVR_EXECUTABLE gcovr)
+
+find_program(LCOV_BIN lcov)
+if (NOT LCOV_BIN MATCHES "lcov$")
+    message(WARNING "lcov не был найден!")
+endif ()
+
+find_program( GCOV_PATH gcov )
+if (NOT GCOV_PATH MATCHES "gcov$")
+    message(WARNING "gcov не был найден!")
+endif ()
+
 add_executable(currentlines-unit-tests test_main.cpp)
 
-target_include_directories(currentlines-unit-tests PRIVATE docktests)
-target_sources(currentlines-unit-tests PRIVATE CurrentLines/CurrentLineGenerator.cpp)
 target_link_libraries(currentlines-unit-tests
         PRIVATE
         CurrentLines::currentlinessrc
         )
 
-find_program(GCOVR_EXECUTABLE gcovr)
-if(MYLIB_COVERAGE AND GCOVR_EXECUTABLE)
+target_include_directories(currentlines-unit-tests PRIVATE docktests)
+target_sources(currentlines-unit-tests PRIVATE CurrentLines/CurrentLineGenerator.cpp)
+
+if(CURRENTLINES_COVERAGE AND GCOVR_EXECUTABLE)
     message(STATUS "Измерение покрытия кода тестами включено")
 
     target_compile_options(currentlines-unit-tests PRIVATE --coverage)
@@ -33,3 +45,4 @@ elseif(CURRENTLINES_COVERAGE AND NOT GCOVR_EXECUTABLE)
 endif()
 
 add_custom_target(check ALL COMMAND currentlines-unit-tests)
+

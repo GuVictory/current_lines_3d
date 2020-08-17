@@ -3,3 +3,7 @@
 //
 
 #include <CurrentLines/CurrentLineGenerator.hpp>
+
+int CurrentLineGenerator::calc(int a, int b) {
+    return a + b;
+}

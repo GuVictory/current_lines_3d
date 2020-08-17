@@ -7,7 +7,8 @@
 
 
 class CurrentLineGenerator {
-
+public:
+    static int calc(int a, int b);
 };
 
 
