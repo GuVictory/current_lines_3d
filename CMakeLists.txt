@@ -7,7 +7,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(CurrentLines3D VERSION 1.0 LANGUAGES CXX)
 
-add_executable(CurrentLines3D main.cpp libs/MeshWorker/src/MeshLoader.cpp libs/MeshWorker/include/MeshLoader.hpp)
+add_executable(CurrentLines3D main.cpp)
 
 ###################################################################################################
 ##
@@ -21,3 +21,4 @@ add_subdirectory(libs)
 # скомпилированной статической библиотекой "CurrentLines":
 target_link_libraries(CurrentLines3D CurrentLines)
 target_link_libraries(CurrentLines3D MeshWorker)
+target_link_libraries(CurrentLines3D MeshEntity)
