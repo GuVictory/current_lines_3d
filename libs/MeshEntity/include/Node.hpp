@@ -5,24 +5,33 @@
 #ifndef CURRENTLINES3D_NODE_H
 #define CURRENTLINES3D_NODE_H
 
-#include <Point.hpp>
+#include <Field.hpp>
+#include <iostream>
 
 class Node {
 
 private:
     unsigned int id;
     Point* point;
+    Field* field;
 
 public:
     Node();
+    Node(const Node& node);
     explicit Node(const Point& point);
     Node(double x, double y, double z = 0);
     Node(unsigned int id, const Point& point);
     Node(unsigned int id, double x, double y, double z = 0);
 
+    ~Node();
+
     void setPoint(double newX, double newY, double newZ = 0);
     void setPoint(const Point& newPoint);
+    Point& getPoint();
+    Field& getField();
+
     bool operator==(const Node& node) const;
+    friend std::ostream& operator<<(std::ostream &out, const Node &node);
 };
 
 

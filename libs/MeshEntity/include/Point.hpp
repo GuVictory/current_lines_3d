@@ -6,6 +6,8 @@
 #define CURRENTLINES3D_POINT_H
 
 
+#include <iostream>
+
 class Point {
 
 private:
@@ -13,7 +15,7 @@ private:
 
 public:
     Point();
-    explicit Point(const Point& point);
+    Point(const Point& point);
     Point(double newX, double newY, double newZ = 0);
 
     ~Point();
@@ -21,7 +23,12 @@ public:
     void setCoords(double newX, double newY, double newZ = 0);
     void setCoords(const Point& point);
 
+    [[nodiscard]] double getX() const;
+    [[nodiscard]] double getY() const;
+    [[nodiscard]] double getZ() const;
+
     bool operator==(const Point& point) const;
+    friend std::ostream& operator<<(std::ostream &out, const Point &point);
 };
 
 

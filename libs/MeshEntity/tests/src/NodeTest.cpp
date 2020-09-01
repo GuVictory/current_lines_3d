@@ -5,6 +5,8 @@
 #include <gtest/gtest.h>
 #include <Node.hpp>
 
+#include <iostream>
+
 TEST(DifferentConstructorTest, simpleContructors)
 {
     auto* n1 = new Node();
