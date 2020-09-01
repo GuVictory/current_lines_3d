@@ -1,6 +1,3 @@
-# Задать минимальную версию CMake:
-cmake_minimum_required(VERSION 3.14)
-
 # Добавить в сборку статическую библиотеку "MeshWorker":
 add_library(MeshWorker STATIC src/MeshLoader.cpp)
 
