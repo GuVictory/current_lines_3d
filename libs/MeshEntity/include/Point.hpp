@@ -13,13 +13,15 @@ private:
 
 public:
     Point();
+    explicit Point(const Point& point);
     Point(double newX, double newY, double newZ = 0);
 
     ~Point();
 
     void setCoords(double newX, double newY, double newZ = 0);
+    void setCoords(const Point& point);
 
-    bool operator==(const Point& firstPoint, const Point& secondPoint);
+    bool operator==(const Point& point) const;
 };
 
 
