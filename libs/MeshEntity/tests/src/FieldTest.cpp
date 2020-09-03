@@ -22,7 +22,5 @@ TEST(FieldTest, simpleFieldSize)
 {
     auto* n = new Node(4.0, 0.0, 3.0);
     auto f = n->getField();
-
-    std::cout << *n;
     EXPECT_EQ(f.getSizeOfVectorField(), 5.0) << "Field size isn\'t correct";
 }
