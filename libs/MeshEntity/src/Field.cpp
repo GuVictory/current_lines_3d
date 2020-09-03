@@ -2,7 +2,7 @@
 // Created by Виктория Губанова on 01.09.2020.
 //
 
-#include "Field.hpp"
+#include "Field.h"
 #include <cmath>
 #include <iostream>
 

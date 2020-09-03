@@ -2,7 +2,7 @@
 // Created by Виктория Губанова on 01.09.2020.
 //
 
-#include "Node.hpp"
+#include "Node.h"
 
 
 Node::Node() : id(0) {

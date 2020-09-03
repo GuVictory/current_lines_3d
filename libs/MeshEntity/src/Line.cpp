@@ -2,7 +2,7 @@
 // Created by Виктория Губанова on 03.09.2020.
 //
 
-#include <Line.hpp>
+#include <Line.h>
 #include <cmath>
 
 Line::Line() {

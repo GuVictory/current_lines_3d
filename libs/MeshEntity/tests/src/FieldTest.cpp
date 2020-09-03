@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <Node.hpp>
+#include <Node.h>
 
 #include <iostream>
 

@@ -2,7 +2,7 @@
 // Created by Виктория Губанова on 31.08.2020.
 //
 
-#include "Point.hpp"
+#include "Point.h"
 
 
 Point::Point() : x(0), y(0), z(0) {}

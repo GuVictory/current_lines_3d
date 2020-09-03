@@ -5,7 +5,7 @@
 #ifndef CURRENT_LINES_3D_LINE_H
 #define CURRENT_LINES_3D_LINE_H
 
-#include <Node.hpp>
+#include <Node.h>
 #include <iostream>
 
 class Line {
