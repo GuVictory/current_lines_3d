@@ -5,7 +5,10 @@
 #ifndef CURRENTLINES3D_CELL_H
 #define CURRENTLINES3D_CELL_H
 
-#include <Node.h>
+#include <Plane.h>
+#include <EdgeValues.h>
+#include <CellFaces.h>
+
 #include <vector>
 
 class Cell {
@@ -13,6 +16,10 @@ class Cell {
 private:
     unsigned int id;
     std::vector<Node*> nodes;
+
+    EdgeValues getXEdgeValues();
+    EdgeValues getYEdgeValues();
+    EdgeValues getZEdgeValues();
 
 public:
     Cell();
@@ -26,6 +33,13 @@ public:
          Node& n8,
          unsigned int id = 0);
     ~Cell();
+
+    Plane& getFrontPlane();
+    Plane& getRightPlane();
+    Plane& getBackPlane();
+    Plane& getLeftPlane();
+    Plane& getTopPlane();
+    Plane& getBottomPlane();
 
     bool operator==(const Cell& cell);
 };
