@@ -13,6 +13,7 @@
  * | /
  * |/--------- z
 */
-enum PlaneType { YZ, XY, XZ };
+// В случае, если тип плоскости не определен, то ERR
+enum PlaneType { YZ, XY, XZ, ERR };
 
 #endif //CURRENTLINES3D_PLANETYPES_H
