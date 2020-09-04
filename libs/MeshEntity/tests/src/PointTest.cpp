@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <Point.hpp>
+#include <Point.h>
 
 #include <iostream>
 

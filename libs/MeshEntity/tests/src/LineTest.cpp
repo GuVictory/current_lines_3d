@@ -3,7 +3,7 @@
 //
 
 #include <gtest/gtest.h>
-#include <Line.hpp>
+#include <Line.h>
 #include <cmath>
 
 #include <iostream>

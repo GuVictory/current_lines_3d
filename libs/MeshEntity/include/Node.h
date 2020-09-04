@@ -5,7 +5,7 @@
 #ifndef CURRENTLINES3D_NODE_H
 #define CURRENTLINES3D_NODE_H
 
-#include <Field.hpp>
+#include <Field.h>
 #include <iostream>
 
 class Node {

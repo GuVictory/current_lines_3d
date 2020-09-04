@@ -5,7 +5,7 @@
 #ifndef CURRENTLINES3D_FIELD_H
 #define CURRENTLINES3D_FIELD_H
 
-#include <Point.hpp>
+#include <Point.h>
 
 class Field: public Point {
 public:
