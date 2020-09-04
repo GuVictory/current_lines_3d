@@ -12,6 +12,7 @@ Plane::Plane(Node &n1, Node &n2, Node &n3, Node &n4) {
     this->nodes.push_back(&n4);
     this->planeType = PlaneType::ERR;
     setPlaneType();
+    mainNodesSort();
 }
 
 Plane::~Plane() {
@@ -48,8 +49,10 @@ void Plane::mainNodesSort() {
             sortYZ();
             break;
         case PlaneType::XY:
+            sortXY();
             break;
         case PlaneType::XZ:
+            sortXZ();
             break;
     }
 }
@@ -102,17 +105,91 @@ bool Plane::checkYZ() {
 }
 
 void Plane::sortXY() {
+    while (true) {
+        if ( checkXY() &&
+             this->nodes.at(0)->getPoint().getX() < this->nodes.at(1)->getPoint().getX() &&
+             this->nodes.at(1)->getPoint().getY() > this->nodes.at(2)->getPoint().getY() &&
+             this->nodes.at(2)->getPoint().getX() > this->nodes.at(3)->getPoint().getX() &&
+             this->nodes.at(3)->getPoint().getY() < this->nodes.at(0)->getPoint().getY() ) {
+            return;
+        }
 
+        if ( checkXY() ) {
+
+            if ( this->nodes.at(0)->getPoint().getX() > this->nodes.at(1)->getPoint().getX() ) {
+                std::swap(this->nodes.at(0), this->nodes.at(1));
+            }
+            if ( this->nodes.at(1)->getPoint().getY() < this->nodes.at(2)->getPoint().getY() ) {
+                std::swap(this->nodes.at(1), this->nodes.at(2));
+            }
+            if ( this->nodes.at(2)->getPoint().getX() < this->nodes.at(3)->getPoint().getX() ) {
+                std::swap(this->nodes.at(2), this->nodes.at(3));
+            }
+            if ( this->nodes.at(3)->getPoint().getY() > this->nodes.at(0)->getPoint().getY() ) {
+                std::swap(this->nodes.at(3), this->nodes.at(0));
+            }
+
+        } else {
+            if ( this->nodes.at(0)->getPoint().getY() != this->nodes.at(1)->getPoint().getY() ) {
+                std::swap(this->nodes.at(1),this->nodes.at(2));
+            }
+            if ( this->nodes.at(0)->getPoint().getX() != this->nodes.at(3)->getPoint().getX() ) {
+                std::swap(this->nodes.at(3),this->nodes.at(1));
+            }
+        }
+    }
 }
 
 bool Plane::checkXY() {
-    return false;
+    return this->nodes.at(0)->getPoint().getY() == this->nodes.at(1)->getPoint().getY() &&
+           this->nodes.at(2)->getPoint().getY() == this->nodes.at(3)->getPoint().getY() &&
+           this->nodes.at(0)->getPoint().getX() == this->nodes.at(3)->getPoint().getX() &&
+           this->nodes.at(1)->getPoint().getX() == this->nodes.at(2)->getPoint().getX();
 }
 
 void Plane::sortXZ() {
+    while (true) {
+        if ( checkXZ() &&
+             this->nodes.at(0)->getPoint().getX() < this->nodes.at(1)->getPoint().getX() &&
+             this->nodes.at(1)->getPoint().getZ() > this->nodes.at(2)->getPoint().getZ() &&
+             this->nodes.at(2)->getPoint().getX() > this->nodes.at(3)->getPoint().getX() &&
+             this->nodes.at(3)->getPoint().getZ() < this->nodes.at(0)->getPoint().getZ() ) {
+            return;
+        }
 
+        if ( checkXZ() ) {
+
+            if ( this->nodes.at(0)->getPoint().getX() > this->nodes.at(1)->getPoint().getX() ) {
+                std::swap(this->nodes.at(0), this->nodes.at(1));
+            }
+            if ( this->nodes.at(1)->getPoint().getZ() < this->nodes.at(2)->getPoint().getZ() ) {
+                std::swap(this->nodes.at(1), this->nodes.at(2));
+            }
+            if ( this->nodes.at(2)->getPoint().getX() < this->nodes.at(3)->getPoint().getX() ) {
+                std::swap(this->nodes.at(2), this->nodes.at(3));
+            }
+            if ( this->nodes.at(3)->getPoint().getZ() > this->nodes.at(0)->getPoint().getZ() ) {
+                std::swap(this->nodes.at(3), this->nodes.at(0));
+            }
+
+        } else {
+            if ( this->nodes.at(0)->getPoint().getZ() != this->nodes.at(1)->getPoint().getZ() ) {
+                std::swap(this->nodes.at(1),this->nodes.at(2));
+            }
+            if ( this->nodes.at(0)->getPoint().getX() != this->nodes.at(3)->getPoint().getX() ) {
+                std::swap(this->nodes.at(3),this->nodes.at(1));
+            }
+        }
+    }
 }
 
 bool Plane::checkXZ() {
-    return false;
+    return this->nodes.at(0)->getPoint().getZ() == this->nodes.at(1)->getPoint().getZ() &&
+           this->nodes.at(2)->getPoint().getZ() == this->nodes.at(3)->getPoint().getZ() &&
+           this->nodes.at(0)->getPoint().getX() == this->nodes.at(3)->getPoint().getX() &&
+           this->nodes.at(1)->getPoint().getX() == this->nodes.at(2)->getPoint().getX();
+}
+
+PlaneType Plane::getType() {
+    return this->planeType;
 }

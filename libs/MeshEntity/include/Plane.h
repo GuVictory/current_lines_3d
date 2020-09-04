@@ -29,6 +29,8 @@ public:
           Node& n3,
           Node& n4);
     ~Plane();
+
+    PlaneType getType();
 };
 
 
