@@ -14,6 +14,6 @@
  * |/--------- z
 */
 // В случае, если тип плоскости не определен, то ERR
-enum PlaneType { YZ, XY, XZ, ERR };
+enum PlaneType { YZ, XY, XZ, SAME_POINTS, ERR };
 
 #endif //CURRENTLINES3D_PLANETYPES_H

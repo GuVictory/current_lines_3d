@@ -50,3 +50,14 @@ TEST(PlaneTest, foundPlaneTypeERR)
     auto* p = new Plane(*n1, *n2, *n3, *n4);
     EXPECT_EQ(p->getType(), PlaneType::ERR) << "PlaneType ERR isn\'t correct";
 }
+
+TEST(PlaneTest, foundPlaneTypeSAME_POINTS)
+{
+    auto* n1 = new Node(1.2, 2, 2);
+    auto* n2 = new Node(1.2, 2, 2);
+    auto* n3 = new Node(2.0, 2, 1);
+    auto* n4 = new Node(1.2, 2, 1);
+
+    auto* p = new Plane(*n1, *n2, *n3, *n4);
+    EXPECT_EQ(p->getType(), PlaneType::SAME_POINTS) << "PlaneType SAME_POINTS isn\'t correct";
+}

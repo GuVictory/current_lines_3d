@@ -21,25 +21,27 @@ Plane::~Plane() {
 
 // Метод, который устанавливает тип плоскости
 void Plane::setPlaneType() {
-    if (this->nodes.at(0)->getPoint().getX() == this->nodes.at(1)->getPoint().getX() &&
-        this->nodes.at(1)->getPoint().getX() == this->nodes.at(2)->getPoint().getX() &&
-        this->nodes.at(2)->getPoint().getX() == this->nodes.at(3)->getPoint().getX()) {
+    if ( !this->checkIsCorrectPlane() ) {
+        this->planeType = PlaneType::SAME_POINTS;
+
+    } else if ( this->nodes.at(0)->getPoint().getX() == this->nodes.at(1)->getPoint().getX() &&
+         this->nodes.at(1)->getPoint().getX() == this->nodes.at(2)->getPoint().getX() &&
+         this->nodes.at(2)->getPoint().getX() == this->nodes.at(3)->getPoint().getX() ) {
 
         this->planeType = PlaneType::YZ;
 
-    } else if (this->nodes.at(0)->getPoint().getZ() == this->nodes.at(1)->getPoint().getZ() &&
-               this->nodes.at(1)->getPoint().getZ() == this->nodes.at(2)->getPoint().getZ() &&
-               this->nodes.at(2)->getPoint().getZ() == this->nodes.at(3)->getPoint().getZ()) {
+    } else if ( this->nodes.at(0)->getPoint().getZ() == this->nodes.at(1)->getPoint().getZ() &&
+                this->nodes.at(1)->getPoint().getZ() == this->nodes.at(2)->getPoint().getZ() &&
+                this->nodes.at(2)->getPoint().getZ() == this->nodes.at(3)->getPoint().getZ() ) {
 
         this->planeType = PlaneType::XY;
-    } else if (this->nodes.at(0)->getPoint().getY() == this->nodes.at(1)->getPoint().getY() &&
-               this->nodes.at(1)->getPoint().getY() == this->nodes.at(2)->getPoint().getY() &&
-               this->nodes.at(2)->getPoint().getY() == this->nodes.at(3)->getPoint().getY()) {
+    } else if ( this->nodes.at(0)->getPoint().getY() == this->nodes.at(1)->getPoint().getY() &&
+                this->nodes.at(1)->getPoint().getY() == this->nodes.at(2)->getPoint().getY() &&
+                this->nodes.at(2)->getPoint().getY() == this->nodes.at(3)->getPoint().getY() ) {
 
         this->planeType = PlaneType::XZ;
     } else {
         this->planeType = PlaneType::ERR;
-        std::cout << "[PLANE ERROR]: created plane with unusual PlaneType" << std::endl;
     }
 }
 
@@ -53,6 +55,8 @@ void Plane::mainNodesSort() {
             break;
         case PlaneType::XZ:
             sortXZ();
+            break;
+        case PlaneType::SAME_POINTS:
             break;
     }
 }
@@ -200,5 +204,17 @@ bool Plane::operator==(const Plane &plane) const{
             return false;
         }
     }
+    return true;
+}
+
+bool Plane::checkIsCorrectPlane() {
+    for ( int i = 0; i < 3; ++i ) {
+        for ( int j = i + 1; j < 4; ++j ) {
+            if ( *this->nodes.at(i) == *this->nodes.at(j) ) {
+                return false;
+            }
+        }
+    }
+
     return true;
 }

@@ -23,6 +23,9 @@ private:
     bool checkYZ();
     bool checkXY();
     bool checkXZ();
+
+    // Метод для определения имеет ли ячейка 4 уникальных узла или же они попарно совпадают
+    bool checkIsCorrectPlane();
 public:
     Plane(Node& n1,
           Node& n2,
