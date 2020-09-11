@@ -12,6 +12,7 @@ add_executable(MeshEntityTests
         src/FieldTest.cpp
         src/LineTest.cpp
         src/PlaneTest.cpp
+        src/CellTest.cpp
         )
 
 target_link_libraries(

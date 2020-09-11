@@ -12,6 +12,5 @@ enum CellFaces {
     LEFT,
     TOP,
     BOTTOM,
-    ERR
 };
 #endif //CURRENTLINES3D_CELLFACES_H

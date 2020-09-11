@@ -9,7 +9,6 @@ Cell::Cell() : id(0) {
 }
 
 Cell::Cell(Node &n1, Node &n2, Node &n3, Node &n4, Node &n5, Node &n6, Node &n7, Node &n8, unsigned int id) : id(id) {
-    this->nodes = std::vector<Node*>(8);
     this->nodes.push_back(&n1);
     this->nodes.push_back(&n2);
     this->nodes.push_back(&n3);
@@ -75,18 +74,73 @@ EdgeValues Cell::getZEdgeValues() {
     return EdgeValues(minZ, maxZ);
 }
 
-Plane &Cell::getFrontPlane() {
-    EdgeValues edgeValues = getYEdgeValues();
-    std::vector<Node*> frontNodes;
-    for (int i = 0; i < 8; ++i) {
-        if ( this->nodes.at(i)->getPoint().getY() == edgeValues.min ) {
-            frontNodes.push_back(this->nodes.at(i));
+Plane &Cell::getSuitablePlane(CellFaces face, double coord) {
+    std::vector<Node*> suitableNodes;
+    if ( face == CellFaces::FRONT || face == CellFaces::BACK ) {
+        for (int i = 0; i < 8; ++i) {
+            if ( this->nodes.at(i)->getPoint().getY() == coord ) {
+                suitableNodes.push_back(this->nodes.at(i));
+            }
+            if (suitableNodes.size() == 4) {
+                break;
+            }
         }
-        if (frontNodes.size() == 4) {
-            break;
+    } else if ( face == CellFaces::LEFT || face == CellFaces::RIGHT ) {
+        for (int i = 0; i < 8; ++i) {
+            if ( this->nodes.at(i)->getPoint().getX() == coord ) {
+                suitableNodes.push_back(this->nodes.at(i));
+            }
+            if (suitableNodes.size() == 4) {
+                break;
+            }
+        }
+    } else {
+        for (int i = 0; i < 8; ++i) {
+            if ( this->nodes.at(i)->getPoint().getZ() == coord ) {
+                suitableNodes.push_back(this->nodes.at(i));
+            }
+            if (suitableNodes.size() == 4) {
+                break;
+            }
         }
     }
-    auto* plane = new Plane(*frontNodes.at(0), *frontNodes.at(1), *frontNodes.at(2), *frontNodes.at(3));
+
+    auto* plane = new Plane(*suitableNodes.at(0),
+                            *suitableNodes.at(1),
+                            *suitableNodes.at(2),
+                            *suitableNodes.at(3));
     return *plane;
 }
+
+Plane &Cell::getFrontPlane() {
+    EdgeValues edgeValues = getYEdgeValues();
+    return this->getSuitablePlane(CellFaces::FRONT, edgeValues.min);
+}
+
+Plane &Cell::getBackPlane() {
+    EdgeValues edgeValues = getYEdgeValues();
+    return this->getSuitablePlane(CellFaces::BACK, edgeValues.max);
+}
+
+Plane &Cell::getLeftPlane() {
+    EdgeValues edgeValues = getXEdgeValues();
+    return this->getSuitablePlane(CellFaces::LEFT, edgeValues.min);
+}
+
+Plane &Cell::getRightPlane() {
+    EdgeValues edgeValues = getXEdgeValues();
+    return this->getSuitablePlane(CellFaces::RIGHT, edgeValues.max);
+}
+
+Plane &Cell::getBottomPlane() {
+    EdgeValues edgeValues = getZEdgeValues();
+    return this->getSuitablePlane(CellFaces::BOTTOM, edgeValues.min);
+}
+
+Plane &Cell::getTopPlane() {
+    EdgeValues edgeValues = getZEdgeValues();
+    return this->getSuitablePlane(CellFaces::TOP, edgeValues.max);
+}
+
+
 

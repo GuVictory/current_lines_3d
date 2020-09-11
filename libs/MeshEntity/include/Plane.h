@@ -31,6 +31,7 @@ public:
     ~Plane();
 
     PlaneType getType();
+    bool operator==(const Plane& plane) const;
 };
 
 

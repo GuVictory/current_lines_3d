@@ -21,6 +21,8 @@ private:
     EdgeValues getYEdgeValues();
     EdgeValues getZEdgeValues();
 
+    Plane& getSuitablePlane(CellFaces face, double coord);
+
 public:
     Cell();
     Cell(Node& n1,

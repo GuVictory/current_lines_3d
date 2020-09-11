@@ -193,3 +193,12 @@ bool Plane::checkXZ() {
 PlaneType Plane::getType() {
     return this->planeType;
 }
+
+bool Plane::operator==(const Plane &plane) const{
+    for ( int i = 0; i < 4; ++i ) {
+        if ( !(*this->nodes.at(i) == *plane.nodes.at(i)) ) {
+            return false;
+        }
+    }
+    return true;
+}
