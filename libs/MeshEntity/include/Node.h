@@ -29,6 +29,7 @@ public:
     void setPoint(const Point& newPoint);
     Point& getPoint();
     Field& getField();
+    unsigned int getId();
 
     bool operator==(const Node& node) const;
     friend std::ostream& operator<<(std::ostream &out, const Node &node);

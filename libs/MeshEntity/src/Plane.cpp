@@ -218,3 +218,13 @@ bool Plane::checkIsCorrectPlane() {
 
     return true;
 }
+
+bool Plane::areSuitsPlane(const Plane &plane) {
+    int sameNodesCounter = 0;
+    for ( int i = 0; i < 4; ++i ) {
+        for ( int j = 0; j < 4; ++j ) {
+            sameNodesCounter += this->nodes.at(i)->getId() == plane.nodes.at(j)->getId() ? 1 : 0;
+        }
+    }
+    return sameNodesCounter == 2;
+}

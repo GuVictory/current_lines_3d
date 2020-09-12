@@ -13,7 +13,7 @@ add_executable(MeshEntityTests
         src/LineTest.cpp
         src/PlaneTest.cpp
         src/CellTest.cpp
-        )
+        src/MeshTest.cpp)
 
 target_link_libraries(
         MeshEntityTests ${GTEST_LIBRARIES} Threads::Threads MeshEntity)

@@ -6,7 +6,7 @@
 #define CURRENTLINES3D_PLANE_H
 
 #include <Node.h>
-#include <PlaneTypes.h>
+#include <PlaneType.h>
 #include <vector>
 
 class Plane {
@@ -34,6 +34,10 @@ public:
     ~Plane();
 
     PlaneType getType();
+
+    // Метод который позволяет определить могут ли две плоскости явзятся гранями одной ячейки
+    bool areSuitsPlane(const Plane& plane);
+
     bool operator==(const Plane& plane) const;
 };
 

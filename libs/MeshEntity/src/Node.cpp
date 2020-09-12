@@ -76,5 +76,9 @@ Field &Node::getField() {
     return *this->field;
 }
 
+unsigned int Node::getId() {
+    return this->id;
+}
+
 
 
