@@ -13,6 +13,11 @@ Mesh::~Mesh() {
     for ( auto cell : this->cells ) {
         delete cell;
     }
+    for ( const auto& planesB : this->planesBusket ) {
+        for ( auto plane : planesB ) {
+            delete plane;
+        }
+    }
 }
 
 unsigned int Mesh::numberOfNodes() {
@@ -23,7 +28,7 @@ unsigned int Mesh::numberOfCells() {
     return this->cells.size();
 }
 
-void Mesh::addNode(Node &node) {
+void Mesh::loadNode(Node &node) {
     auto [iter, success] = this->nodes.try_emplace(node.getId(), &node);
 
     // В случае добавления узла с координатой Z переключаем тип сетки на 3D

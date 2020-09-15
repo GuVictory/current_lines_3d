@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <map>
+#include <list>
 #include <iostream>
 #include <Cell.h>
 #include <MeshType.h>
@@ -15,6 +16,7 @@ class Mesh {
 private:
     std::map<unsigned int, Node*> nodes;
     std::vector<Cell*> cells;
+    std::list<std::vector<Plane*>> planesBusket;
 
     MeshType meshType;
 
@@ -25,7 +27,7 @@ public:
     unsigned int numberOfNodes();
     unsigned int numberOfCells();
 
-    void addNode(Node& node);
+    void loadNode(Node& node);
     std::pair<bool, Node*> getNode(unsigned int nodeId);
     bool changeFieldOfNode(unsigned int nodeId, const Field& field);
 

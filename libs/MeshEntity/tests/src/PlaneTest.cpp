@@ -61,3 +61,89 @@ TEST(PlaneTest, foundPlaneTypeSAME_POINTS)
     auto* p = new Plane(*n1, *n2, *n3, *n4);
     EXPECT_EQ(p->getType(), PlaneType::SAME_POINTS) << "PlaneType SAME_POINTS isn\'t correct";
 }
+
+TEST(PlaneTest, suitsPlanesTest1)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(1.0, 0.0, 0.0);
+    auto* n3 = new Node(1.0, 0.0, 1.0);
+    auto* n4 = new Node(0.0, 0.0, 1.0);
+
+    auto* n5 = new Node(0.0, 0.0, 0.0);
+    auto* n6 = new Node(0.0, 1.0, 0.0);
+    auto* n7 = new Node(1.0, 1.0, 0.0);
+    auto* n8 = new Node(1.0, 0.0, 0.0);
+
+    auto* p1 = new Plane(*n1, *n2, *n3, *n4);
+    auto* p2 = new Plane(*n5, *n6, *n7, *n8);
+    EXPECT_TRUE(p1->areSuitsPlane(*p2)) << "areSuitsPlane1 not working";
+}
+
+
+TEST(PlaneTest, suitsPlanesTest2)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(1.0, 0.0, 0.0);
+    auto* n3 = new Node(1.0, 0.0, 1.0);
+    auto* n4 = new Node(0.0, 0.0, 1.0);
+
+    auto* n5 = new Node(0.0, 0.0, 1.0);
+    auto* n6 = new Node(0.0, 1.0, 1.0);
+    auto* n7 = new Node(1.0, 1.0, 1.0);
+    auto* n8 = new Node(1.0, 0.0, 1.0);
+
+    auto* p1 = new Plane(*n1, *n2, *n3, *n4);
+    auto* p2 = new Plane(*n5, *n6, *n7, *n8);
+    EXPECT_TRUE(p1->areSuitsPlane(*p2)) << "areSuitsPlane2 not working";
+}
+
+TEST(PlaneTest, suitsPlanesTest3)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(1.0, 0.0, 0.0);
+    auto* n3 = new Node(1.0, 0.0, 1.0);
+    auto* n4 = new Node(0.0, 0.0, 1.0);
+
+    auto* n5 = new Node(1.0, 0.0, 1.0);
+    auto* n6 = new Node(1.0, 1.0, 1.0);
+    auto* n7 = new Node(1.0, 0.0, 0.0);
+    auto* n8 = new Node(1.0, 1.0, 0.0);
+
+    auto* p1 = new Plane(*n1, *n2, *n3, *n4);
+    auto* p2 = new Plane(*n5, *n6, *n7, *n8);
+    EXPECT_TRUE(p1->areSuitsPlane(*p2)) << "areSuitsPlane3 not working";
+}
+
+TEST(PlaneTest, suitsPlanesTest4)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(1.0, 0.0, 0.0);
+    auto* n3 = new Node(1.0, 0.0, 1.0);
+    auto* n4 = new Node(0.0, 0.0, 1.0);
+
+    auto* n5 = new Node(0.0, 0.0, 0.0);
+    auto* n6 = new Node(0.0, 0.0, 1.0);
+    auto* n7 = new Node(0.0, 1.0, 0.0);
+    auto* n8 = new Node(0.0, 1.0, 1.0);
+
+    auto* p1 = new Plane(*n1, *n2, *n3, *n4);
+    auto* p2 = new Plane(*n5, *n6, *n7, *n8);
+    EXPECT_TRUE(p1->areSuitsPlane(*p2)) << "areSuitsPlane4 not working";
+}
+
+TEST(PlaneTest, suitsPlanesTest5)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(1.0, 0.0, 0.0);
+    auto* n3 = new Node(1.0, 0.0, 1.0);
+    auto* n4 = new Node(0.0, 0.0, 1.0);
+
+    auto* n5 = new Node(0.0, 1.0, 0.0);
+    auto* n6 = new Node(0.0, 1.0, 1.0);
+    auto* n7 = new Node(1.0, 1.0, 0.0);
+    auto* n8 = new Node(1.0, 1.0, 1.0);
+
+    auto* p1 = new Plane(*n1, *n2, *n3, *n4);
+    auto* p2 = new Plane(*n5, *n6, *n7, *n8);
+    EXPECT_FALSE(p1->areSuitsPlane(*p2)) << "areSuitsPlane5 not working";
+}
