@@ -5,6 +5,10 @@
 #ifndef CURRENTLINES3D_EDGEVALUES_H
 #define CURRENTLINES3D_EDGEVALUES_H
 
+/*!
+ * Струкрута содержит краевые значения координат
+ * same - отвечает за то, совпадают ли переданные структуре координаты
+ */
 struct EdgeValues {
     double min;
     double max;
