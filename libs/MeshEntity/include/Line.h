@@ -6,12 +6,38 @@
 #define CURRENT_LINES_3D_LINE_H
 
 #include <Node.h>
+#include <GeneralFormOfLine.h>
 #include <iostream>
 
+/*!
+ * \brief Класс линии
+ *
+ * Линия создается на основе двух узлов
+ */
 class Line {
 private:
     Node* firstNode;
     Node* secondNode;
+    GeneralFormOfLine* generalFormOfLine;
+
+    /*!
+     * Метод для определения факта параллельности двух прямых,
+     * предполагется, что прямые лежат в одной плоскости (не являются скрещивающимися)
+     * @param line - прямая, которую мы будем проверять на параллельность с нашей прямой
+     * @return
+     * true - прямые параллельны
+     * false - прямые не параллельны
+     */
+    bool areParallel(const Line& line);
+
+    /*!
+     * Метод для определения являются ли две прямые скрещивающимися или нет
+     * @param line - прямая, с которой мы будем проверять факт скрещивания
+     * @return
+     * true - прямые скрещивающиеся
+     * false - прямые не скрещивающиеся
+     */
+    bool areInterbreeding(const Line& line);
 
 public:
     Line();
@@ -20,7 +46,22 @@ public:
 
     ~Line();
 
+    /*!
+     * Метод для определения длины линии
+     * @return длина линии = sqrt((x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2)
+     */
     double len();
+
+    /*!
+     * Метод определяет принадлежит ли точка данной прямой или нет
+     * @param point - точка, принадлежность которой будет проверяться
+     * @return
+     * true - принадлежит
+     * false - не принадлежит
+     */
+    bool containsPoint(const Point& point);
+
+
 
     bool operator==(const Line& line) const;
 

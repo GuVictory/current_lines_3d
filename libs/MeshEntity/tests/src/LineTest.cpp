@@ -26,6 +26,45 @@ TEST(LineTest, lineLen)
 
     auto* l = new Line(*n1, *n2);
 
-    std::cout << *l;
     EXPECT_EQ(l->len(), sqrt(5)) << "Lines isn\'t the same";
+}
+
+TEST(LineTest, lineContainsPointTrue)
+{
+    auto* n1 = new Node(0.0, 0.0);
+    auto* n2 = new Node(3.0, 4.0);
+
+    auto* l = new Line(*n1, *n2);
+
+    EXPECT_TRUE(l->containsPoint(*new Point(6.0, 8.0, 0.0))) << "Lines contains point not working";
+}
+
+TEST(LineTest, lineContainsPointTrue2)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(1.0, 1.0, 1.0);
+
+    auto* l = new Line(*n1, *n2);
+
+    EXPECT_TRUE(l->containsPoint(*new Point(2.0, 2.0, 2.0))) << "Lines contains point not working";
+}
+
+TEST(LineTest, lineContainsPointFalse)
+{
+    auto* n1 = new Node(0.0, 0.0);
+    auto* n2 = new Node(3.0, 4.0);
+
+    auto* l = new Line(*n1, *n2);
+
+    EXPECT_FALSE(l->containsPoint(*new Point(1.0, 8.0, 0.0))) << "Lines contains point not working";
+}
+
+TEST(LineTest, lineContainsPointFalse2)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(1.0, 1.0, 1.0);
+
+    auto* l = new Line(*n1, *n2);
+
+    EXPECT_FALSE(l->containsPoint(*new Point(2.0, 3.0, 2.0))) << "Lines contains point not working";
 }
