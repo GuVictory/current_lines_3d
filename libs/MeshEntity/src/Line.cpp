@@ -86,7 +86,7 @@ std::ostream &operator<<(std::ostream &out, const Line &line) {
 }
 
 // TODO: Написать тесты для этой функции
-bool Line::areInterbreeding(const Line &line) {
+bool Line::areNotInterbreeding(const Line &line) {
     //! Вычислим смешанное произведение направляющих векторов каждой линии и линии, соеденяющей эти вектора
     double MM1x = line.secondNode->getPoint().getX() - this->firstNode->getPoint().getX();
     double MM1y = line.secondNode->getPoint().getY() - this->firstNode->getPoint().getY();
@@ -109,4 +109,24 @@ bool Line::areInterbreeding(const Line &line) {
                                     - line.generalFormOfLine->w * this->generalFormOfLine->e);
 
     return (firstElement - secondElement + thirdElement) == 0;
+}
+
+bool Line::areParallel(const Line &line) {
+    //! Если две прямые скрещивающиеся => они не могут быть параллельными
+    if(!this->areNotInterbreeding(line)) {
+        return false;
+    }
+
+    double lambdaQ = line.generalFormOfLine->q == 0 ? 0 : this->generalFormOfLine->q / line.generalFormOfLine->q;
+    double lambdaW = line.generalFormOfLine->w == 0 ? 0 : this->generalFormOfLine->w / line.generalFormOfLine->w;
+    double lambdaE = line.generalFormOfLine->e == 0 ? 0 : this->generalFormOfLine->e / line.generalFormOfLine->e;
+
+    if( this->generalFormOfLine->z0 == 0
+        && line.generalFormOfLine->z0 == 0
+        && this->generalFormOfLine->e == 0
+        && line.generalFormOfLine->e == 0) {
+        return lambdaQ == lambdaW;
+    }
+
+    return lambdaQ == lambdaW && lambdaW == lambdaE;
 }
