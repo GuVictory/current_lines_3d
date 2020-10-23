@@ -7,8 +7,7 @@ include_directories(
 
 add_executable(CurrentLinesTests
         test.cpp
-        src/CurrentLineGeneratorTest.cpp
-        src/GaussTest.cpp)
+        src/CurrentLineGeneratorTest.cpp)
 
 target_link_libraries(
         CurrentLinesTests ${GTEST_LIBRARIES} Threads::Threads CurrentLines)

@@ -138,3 +138,51 @@ TEST(LineTest, linesAreParallelTestFalse)
 
     EXPECT_FALSE(l1->areParallel(*l2)) << "Lines AreParallel false not working";
 }
+
+TEST(LineTest, foundIntersectionPointTest)
+{
+    auto* n1 = new Node(0.0, 0.0, 1.0);
+    auto* n2 = new Node(4.0, 0.0, 5.0);
+
+    auto* n3 = new Node(0.0, 0.0, 3.0);
+    auto* n4 = new Node(3.0, 0.0, 0.0);
+
+    auto* l1 = new Line(*n1, *n2);
+    auto* l2 = new Line(*n3, *n4);
+
+    auto* expectedPoint = new Point(1.0, 0.0, 2.0);
+
+    auto result = l1->foundIntersectionPoint(*l2);
+
+    // Для теста снизим точность решения до 2х знаков после запятой
+    result.second.setCoords(round( result.second.getX() * 100 ) / 100,
+                            round( result.second.getY() * 100 ) / 100,
+                            round( result.second.getZ() * 100 ) / 100);
+
+
+    EXPECT_EQ(*expectedPoint, result.second) << "Lines foundIntersectionPointTest not working";
+}
+
+TEST(LineTest, foundIntersectionPointTest_2)
+{
+    auto* n1 = new Node(0.0, 0.0, 6.0);
+    auto* n2 = new Node(0.0, 6.0, 0.0);
+
+    auto* n3 = new Node(0.0, 0.0, 3.0);
+    auto* n4 = new Node(0.0, 2.0, 4.0);
+
+    auto* l1 = new Line(*n1, *n2);
+    auto* l2 = new Line(*n3, *n4);
+
+    auto* expectedPoint = new Point(0.0, 2.0, 4.0);
+
+    auto result = l1->foundIntersectionPoint(*l2);
+
+    // Для теста снизим точность решения до 2х знаков после запятой
+    result.second.setCoords(round( result.second.getX() * 100 ) / 100,
+                            round( result.second.getY() * 100 ) / 100,
+                            round( result.second.getZ() * 100 ) / 100);
+
+
+    EXPECT_EQ(*expectedPoint, result.second) << "Lines foundIntersectionPointTest not working";
+}

@@ -4,6 +4,8 @@
 
 #include <Line.h>
 #include <cmath>
+#include <vector>
+#include "GaussSolve.h"
 
 Line::Line() {
     this->firstNode = new Node();
@@ -85,7 +87,7 @@ std::ostream &operator<<(std::ostream &out, const Line &line) {
     return out;
 }
 
-// TODO: Написать тесты для этой функции
+
 bool Line::areNotInterbreeding(const Line &line) {
     //! Вычислим смешанное произведение направляющих векторов каждой линии и линии, соеденяющей эти вектора
     double MM1x = line.secondNode->getPoint().getX() - this->firstNode->getPoint().getX();
@@ -112,11 +114,6 @@ bool Line::areNotInterbreeding(const Line &line) {
 }
 
 bool Line::areParallel(const Line &line) {
-    //! Если две прямые скрещивающиеся => они не могут быть параллельными
-    if(!this->areNotInterbreeding(line)) {
-        return false;
-    }
-
     double lambdaQ = 0, lambdaW = 0, lambdaE = 0;
 
     if (line.generalFormOfLine->q == 0 && this->generalFormOfLine->q == 0) {
@@ -159,4 +156,63 @@ bool Line::areParallel(const Line &line) {
     }
 
     return lambdaQ == lambdaW && lambdaW == lambdaE;
+}
+
+std::pair<bool, Point> Line::foundIntersectionPoint(const Line &line) {
+
+    // Проверим являются ли прямые скрещивающимися
+    if(!this->areNotInterbreeding(line)) {
+        return std::make_pair(false, *new Point(0, 0, 0));
+    }
+
+    // Проверим являются ли прямые параллельными
+    if(this->areParallel(line)) {
+        return std::make_pair(false, *new Point(0, 0, 0));
+    }
+
+
+    // Для нахождения точки пересечения будем использовать параметрический вид прямых
+    // Составляем систему
+
+    std::vector<std::vector<double>> A = std::vector<std::vector<double>>(2);
+    std::vector<double> B = std::vector<double>(2);
+
+    A[0] = std::vector<double>(2);
+    A[1] = std::vector<double>(2);
+
+    if (this->generalFormOfLine->e == 0 && line.generalFormOfLine->q == 0) {
+        A[0][0] = this->generalFormOfLine->q;
+        A[0][1] = - line.generalFormOfLine->q;
+        A[1][0] = this->generalFormOfLine->w;
+        A[1][1] = - line.generalFormOfLine->w;
+
+        B[0] = -this->generalFormOfLine->x0 + line.generalFormOfLine->x0;
+        B[1] = -this->generalFormOfLine->y0 + line.generalFormOfLine->y0;
+
+    } else if (this->generalFormOfLine->w == 0 && line.generalFormOfLine->w == 0) {
+        A[0][0] = this->generalFormOfLine->q;
+        A[0][1] = - line.generalFormOfLine->q;
+        A[1][0] = this->generalFormOfLine->e;
+        A[1][1] = - line.generalFormOfLine->e;
+
+        B[0] = -this->generalFormOfLine->x0 + line.generalFormOfLine->x0;
+        B[1] = -this->generalFormOfLine->z0 + line.generalFormOfLine->z0;
+    } else {
+        A[0][0] = this->generalFormOfLine->w;
+        A[0][1] = - line.generalFormOfLine->w;
+        A[1][0] = this->generalFormOfLine->e;
+        A[1][1] = - line.generalFormOfLine->e;
+
+        B[0] = -this->generalFormOfLine->y0 + line.generalFormOfLine->y0;
+        B[1] = -this->generalFormOfLine->z0 + line.generalFormOfLine->z0;
+    }
+
+    auto parameterValues = gauss(A, B, 2);
+
+    // После нахожденя параметров находим координаты точки пересечения
+    double x0 = this->generalFormOfLine->q * parameterValues.second[0] + this->generalFormOfLine->x0;
+    double y0 = this->generalFormOfLine->w * parameterValues.second[0] + this->generalFormOfLine->y0;
+    double z0 = this->generalFormOfLine->e * parameterValues.second[0] + this->generalFormOfLine->z0;
+
+    return std::make_pair(true, *new Point(x0, y0, z0));
 }

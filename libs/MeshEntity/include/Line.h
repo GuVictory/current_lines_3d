@@ -61,6 +61,14 @@ public:
      */
     bool areNotInterbreeding(const Line& line);
 
+    /*!
+     * Метод для нахождения точки пересечения двух прямых,
+     * предполагается, что прямые не являются скрещивающимися или же параллельными
+     * @param line - линия с которой ищем пересечение
+     * @return - точка пересечения
+     */
+    std::pair<bool, Point> foundIntersectionPoint(const Line& line);
+
 
     bool operator==(const Line& line) const;
 

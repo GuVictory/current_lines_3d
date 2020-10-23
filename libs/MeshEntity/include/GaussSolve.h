@@ -2,8 +2,8 @@
 // Created by Виктория Губанова on 23.10.2020.
 //
 
-#ifndef CURRENTLINES3D_GAUSS_H
-#define CURRENTLINES3D_GAUSS_H
+#ifndef CURRENTLINES3D_GAUSSSOLVE_H
+#define CURRENTLINES3D_GAUSSSOLVE_H
 
 #include <vector>
 #include <cmath>
@@ -80,5 +80,4 @@ std::pair<bool, std::vector<double>> gauss(std::vector<std::vector<double>> A, s
     return std::make_pair(true, X);
 }
 
-
-#endif //CURRENTLINES3D_GAUSS_H
+#endif //CURRENTLINES3D_GAUSSSOLVE_H
