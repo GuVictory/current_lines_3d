@@ -142,5 +142,24 @@ Plane &Cell::getTopPlane() {
     return this->getSuitablePlane(CellFaces::TOP, edgeValues.max);
 }
 
+bool Cell::containsPoint(const Point &point) {
+    EdgeValues edgeValuesX = this->getXEdgeValues();
+    if (point.getX() < edgeValuesX.min || point.getX() > edgeValuesX.max) {
+        return false;
+    }
+
+    EdgeValues edgeValuesY = this->getYEdgeValues();
+    if (point.getY() < edgeValuesY.min || point.getY() > edgeValuesY.max) {
+        return false;
+    }
+
+    EdgeValues edgeValuesZ = this->getZEdgeValues();
+    if (point.getZ() < edgeValuesZ.min || point.getZ() > edgeValuesZ.max) {
+        return false;
+    }
+
+    return true;
+}
+
 
 

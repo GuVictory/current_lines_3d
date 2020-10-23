@@ -116,3 +116,51 @@ TEST(CellTest, getBottomPlaneTest)
 
     EXPECT_EQ(*p, cell->getBottomPlane()) << "Bottom cell field isn\'t correct";
 }
+
+TEST(CellTest, containsPointTrue)
+{
+    auto* p = new Point(0.5, 0.5, 0.5);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(1.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 1.0),
+                          *new Node(1.0, 0.0, 1.0),
+                          *new Node(0.0, 1.0, 0.0),
+                          *new Node(1.0, 1.0, 0.0),
+                          *new Node(1.0, 1.0, 1.0),
+                          *new Node(0.0, 1.0, 1.0));
+
+    EXPECT_TRUE(cell->containsPoint(*p)) << "Cell contains point not working!";
+}
+
+TEST(CellTest, containsPointTrue2)
+{
+    auto* p = new Point(1.0, 0.5, 0.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(1.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 1.0),
+                          *new Node(1.0, 0.0, 1.0),
+                          *new Node(0.0, 1.0, 0.0),
+                          *new Node(1.0, 1.0, 0.0),
+                          *new Node(1.0, 1.0, 1.0),
+                          *new Node(0.0, 1.0, 1.0));
+
+    EXPECT_TRUE(cell->containsPoint(*p)) << "Cell contains point not working!";
+}
+
+TEST(CellTest, containsPointFalse)
+{
+    auto* p = new Point(1.1, 0.5, 0.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(1.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 1.0),
+                          *new Node(1.0, 0.0, 1.0),
+                          *new Node(0.0, 1.0, 0.0),
+                          *new Node(1.0, 1.0, 0.0),
+                          *new Node(1.0, 1.0, 1.0),
+                          *new Node(0.0, 1.0, 1.0));
+
+    EXPECT_FALSE(cell->containsPoint(*p)) << "Cell contains point not working!";
+}

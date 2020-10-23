@@ -5,6 +5,9 @@
 #ifndef CURRENTLINES3D_CELLFACES_H
 #define CURRENTLINES3D_CELLFACES_H
 
+/*!
+ * Представление граней ячейки
+ */
 enum CellFaces {
     FRONT,
     RIGHT,
@@ -13,4 +16,5 @@ enum CellFaces {
     TOP,
     BOTTOM,
 };
+
 #endif //CURRENTLINES3D_CELLFACES_H

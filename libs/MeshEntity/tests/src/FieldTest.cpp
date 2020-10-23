@@ -18,9 +18,24 @@ TEST(FieldTest, simpleFieldGeneration)
     EXPECT_EQ(f1.getVectorField(), f2.getVectorField()) << "Fields of nodes isn\'t the same";
 }
 
-TEST(FieldTest, simpleFieldSize)
+TEST(FieldTest, getFieldSize)
 {
     auto* n = new Node(4.0, 0.0, 3.0);
     auto f = n->getField();
     EXPECT_EQ(f.getSizeOfVectorField(), 5.0) << "Field size isn\'t correct";
+}
+
+TEST(FieldTest, getVectorFieldTest)
+{
+    auto* n = new Node(1.0, 2.0, 3.0);
+    auto* f = new Field(n->getPoint());
+    EXPECT_EQ(f->getVectorField(), *new Point(1.0, 2.0, 3.0)) << "Field vector isn\'t correct";
+}
+
+TEST(FieldTest, getNormalizeVectorFieldTest)
+{
+    auto* n = new Node(3.0, 4.0, 0.0);
+    auto* f = new Field(n->getPoint());
+    EXPECT_EQ(f->getNormalizeVectorField(), *new Point(3.0 / 5.0, 4.0 / 5.0, 0))
+                << "Field normalize vector isn\'t correct";
 }
