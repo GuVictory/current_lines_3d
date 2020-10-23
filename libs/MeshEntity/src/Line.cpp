@@ -117,9 +117,39 @@ bool Line::areParallel(const Line &line) {
         return false;
     }
 
-    double lambdaQ = line.generalFormOfLine->q == 0 ? 0 : this->generalFormOfLine->q / line.generalFormOfLine->q;
-    double lambdaW = line.generalFormOfLine->w == 0 ? 0 : this->generalFormOfLine->w / line.generalFormOfLine->w;
-    double lambdaE = line.generalFormOfLine->e == 0 ? 0 : this->generalFormOfLine->e / line.generalFormOfLine->e;
+    double lambdaQ = 0, lambdaW = 0, lambdaE = 0;
+
+    if (line.generalFormOfLine->q == 0 && this->generalFormOfLine->q == 0) {
+        lambdaQ = 1;
+    } else {
+        lambdaQ = line.generalFormOfLine->q == 0 ? 0 : this->generalFormOfLine->q / line.generalFormOfLine->q;
+    }
+
+    if (line.generalFormOfLine->w == 0 && this->generalFormOfLine->w == 0) {
+        lambdaW = 1;
+    } else {
+        lambdaW = line.generalFormOfLine->w == 0 ? 0 : this->generalFormOfLine->w / line.generalFormOfLine->w;
+    }
+
+    if (line.generalFormOfLine->e == 0 && this->generalFormOfLine->e == 0) {
+        lambdaE = 1;
+    } else {
+        lambdaE = line.generalFormOfLine->e == 0 ? 0 : this->generalFormOfLine->e / line.generalFormOfLine->e;
+    }
+
+    if( this->generalFormOfLine->x0 == 0
+        && line.generalFormOfLine->x0 == 0
+        && this->generalFormOfLine->q == 0
+        && line.generalFormOfLine->q == 0) {
+        return lambdaW == lambdaE;
+    }
+
+    if( this->generalFormOfLine->y0 == 0
+        && line.generalFormOfLine->y0 == 0
+        && this->generalFormOfLine->w == 0
+        && line.generalFormOfLine->w == 0) {
+        return lambdaQ == lambdaW;
+    }
 
     if( this->generalFormOfLine->z0 == 0
         && line.generalFormOfLine->z0 == 0
