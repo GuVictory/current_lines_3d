@@ -10,6 +10,7 @@
 #include <CellFaces.h>
 
 #include <vector>
+#include "Line.h"
 
 /*!
  * \brief Класс Ячейки для реализации работы с сетокой
@@ -69,13 +70,55 @@ public:
     Plane& getBottomPlane();
 
     /*!
-     *
+     * Проеверка на пренодлежность точки текущей ячейке
      * @param point - точка, принадлежность которой проверяется
      * @return
      * true - если точка принадлежит яцейке
      * false - если точка не принадлежит яцейке
      */
     bool containsPoint(const Point& point);
+
+    /*!
+     * Находит точку пересечения сканирующей линии по OX из точки point с правой гранью
+     * @param point точка, из которой запускается сканирующая линия
+     * @return точка пересечения
+     */
+    Point& getIntersectionWithRightEdge(const Point &point);
+
+    /*!
+     * Находит точку пересечения сканирующей линии по OX из точки point с левой гранью
+     * @param point точка, из которой запускается сканирующая линия
+     * @return точка пересечения
+     */
+    Point& getIntersectionWithLeftEdge(const Point &point);
+
+    /*!
+     * Находит точку пересечения сканирующей линии по OY из точки point с передней гранью
+     * @param point точка, из которой запускается сканирующая линия
+     * @return точка пересечения
+     */
+    Point& getIntersectionWithFrontEdge(const Point &point);
+
+    /*!
+     * Находит точку пересечения сканирующей линии по OY из точки point с задней гранью
+     * @param point точка, из которой запускается сканирующая линия
+     * @return точка пересечения
+     */
+    Point& getIntersectionWithBackEdge(const Point &point);
+
+    /*!
+     * Находит точку пересечения сканирующей линии по OZ из точки point с верхней гранью
+     * @param point точка, из которой запускается сканирующая линия
+     * @return точка пересечения
+     */
+    Point& getIntersectionWithTopEdge(const Point &point);
+
+    /*!
+     * Находит точку пересечения сканирующей линии по OZ из точки point с нижней гранью
+     * @param point точка, из которой запускается сканирующая линия
+     * @return точка пересечения
+     */
+    Point& getIntersectionWithBottomEdge(const Point &point);
 
     bool operator==(const Cell& cell);
 };

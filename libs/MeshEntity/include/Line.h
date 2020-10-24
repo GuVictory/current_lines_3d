@@ -23,6 +23,7 @@ private:
 public:
     Line();
     Line(const Node& n1, const Node& n2);
+    Line(const Point& p1, const Point& p2);
     Line(double x1, double y1, double z1, double x2, double y2, double z2);
 
     ~Line();
@@ -69,6 +70,26 @@ public:
      */
     std::pair<bool, Point> foundIntersectionPoint(const Line& line);
 
+    /*!
+     * Метод создающий сканирующую линию по OX из определенной точки
+     * @param point - точка из которой запускается сканирующая линия
+     * @return - сканирующая линия
+     */
+    static Line& getScanLineOX(const Point& point);
+
+    /*!
+     * Метод создающий сканирующую линию по OY из определенной точки
+     * @param point - точка из которой запускается сканирующая линия
+     * @return - сканирующая линия
+     */
+    static Line& getScanLineOY(const Point& point);
+
+    /*!
+     * Метод создающий сканирующую линию по OZ из определенной точки
+     * @param point - точка из которой запускается сканирующая линия
+     * @return - сканирующая линия
+     */
+    static Line& getScanLineOZ(const Point& point);
 
     bool operator==(const Line& line) const;
 

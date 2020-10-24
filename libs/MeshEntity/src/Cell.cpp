@@ -161,5 +161,107 @@ bool Cell::containsPoint(const Point &point) {
     return true;
 }
 
+Point &Cell::getIntersectionWithRightEdge(const Point &point) {
+    Line scanLine = Line::getScanLineOX(point);
+
+    auto* n1 = new Point(this->getXEdgeValues().max, this->getYEdgeValues().min, point.getZ());
+    auto* n2 = new Point(this->getXEdgeValues().max, this->getYEdgeValues().max, point.getZ());
+
+    auto* lineOnRightEdge = new Line(*n1, *n2);
+
+    auto* result = new Point(scanLine.foundIntersectionPoint(*lineOnRightEdge).second);
+
+    delete n1;
+    delete n2;
+    delete lineOnRightEdge;
+
+    return *result;
+}
+
+Point &Cell::getIntersectionWithLeftEdge(const Point &point) {
+    Line scanLine = Line::getScanLineOX(point);
+
+    auto* n1 = new Point(this->getXEdgeValues().min, this->getYEdgeValues().min, point.getZ());
+    auto* n2 = new Point(this->getXEdgeValues().min, this->getYEdgeValues().max, point.getZ());
+
+    auto* lineOnRightEdge = new Line(*n1, *n2);
+
+    auto* result = new Point(scanLine.foundIntersectionPoint(*lineOnRightEdge).second);
+
+    delete n1;
+    delete n2;
+    delete lineOnRightEdge;
+
+    return *result;
+}
+
+Point &Cell::getIntersectionWithFrontEdge(const Point &point) {
+    Line scanLine = Line::getScanLineOY(point);
+
+    auto* n1 = new Point(point.getX(), this->getYEdgeValues().min, this->getZEdgeValues().min);
+    auto* n2 = new Point(point.getX(), this->getYEdgeValues().min, this->getZEdgeValues().max);
+
+    auto* lineOnRightEdge = new Line(*n1, *n2);
+
+    auto* result = new Point(scanLine.foundIntersectionPoint(*lineOnRightEdge).second);
+
+    delete n1;
+    delete n2;
+    delete lineOnRightEdge;
+
+    return *result;
+}
+
+Point &Cell::getIntersectionWithBackEdge(const Point &point) {
+    Line scanLine = Line::getScanLineOY(point);
+
+    auto* n1 = new Point(point.getX(), this->getYEdgeValues().max, this->getZEdgeValues().min);
+    auto* n2 = new Point(point.getX(), this->getYEdgeValues().max, this->getZEdgeValues().max);
+
+    auto* lineOnRightEdge = new Line(*n1, *n2);
+
+    auto* result = new Point(scanLine.foundIntersectionPoint(*lineOnRightEdge).second);
+
+    delete n1;
+    delete n2;
+    delete lineOnRightEdge;
+
+    return *result;
+}
+
+Point &Cell::getIntersectionWithTopEdge(const Point &point) {
+    Line scanLine = Line::getScanLineOZ(point);
+
+    auto* n1 = new Point(this->getXEdgeValues().min, point.getY(), this->getZEdgeValues().max);
+    auto* n2 = new Point(this->getXEdgeValues().max, point.getY(), this->getZEdgeValues().max);
+
+    auto* lineOnRightEdge = new Line(*n1, *n2);
+
+    auto* result = new Point(scanLine.foundIntersectionPoint(*lineOnRightEdge).second);
+
+    delete n1;
+    delete n2;
+    delete lineOnRightEdge;
+
+    return *result;
+}
+
+Point &Cell::getIntersectionWithBottomEdge(const Point &point) {
+    Line scanLine = Line::getScanLineOZ(point);
+
+    auto* n1 = new Point(this->getXEdgeValues().min, point.getY(), this->getZEdgeValues().min);
+    auto* n2 = new Point(this->getXEdgeValues().max, point.getY(), this->getZEdgeValues().min);
+
+    auto* lineOnRightEdge = new Line(*n1, *n2);
+
+    auto* result = new Point(scanLine.foundIntersectionPoint(*lineOnRightEdge).second);
+
+    delete n1;
+    delete n2;
+    delete lineOnRightEdge;
+
+    return *result;
+}
+
 
 

@@ -164,3 +164,105 @@ TEST(CellTest, containsPointFalse)
 
     EXPECT_FALSE(cell->containsPoint(*p)) << "Cell contains point not working!";
 }
+
+TEST(CellTest, getIntersectionWithRightEdgeTest)
+{
+    auto* p = new Point(1.0, 1.0, 1.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(2.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 2.0),
+                          *new Node(2.0, 0.0, 2.0),
+                          *new Node(0.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 2.0),
+                          *new Node(0.0, 2.0, 2.0));
+
+    auto* expectedPoint = new Point(2.0, 1.0,1.0);
+    EXPECT_EQ(*expectedPoint, cell->getIntersectionWithRightEdge(*p)) << "Cell getIntersectionWithRightEdgeTest not working!";
+}
+
+TEST(CellTest, getIntersectionWithLeftEdgeTest)
+{
+    auto* p = new Point(1.0, 1.0, 1.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(2.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 2.0),
+                          *new Node(2.0, 0.0, 2.0),
+                          *new Node(0.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 2.0),
+                          *new Node(0.0, 2.0, 2.0));
+
+    auto* expectedPoint = new Point(0.0, 1.0,1.0);
+    EXPECT_EQ(*expectedPoint, cell->getIntersectionWithLeftEdge(*p)) << "Cell getIntersectionWithLeftEdgeTest not working!";
+}
+
+TEST(CellTest, getIntersectionWithTopEdgeTest)
+{
+    auto* p = new Point(1.0, 1.0, 1.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(2.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 2.0),
+                          *new Node(2.0, 0.0, 2.0),
+                          *new Node(0.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 2.0),
+                          *new Node(0.0, 2.0, 2.0));
+
+    auto* expectedPoint = new Point(1.0, 1.0,2.0);
+    EXPECT_EQ(*expectedPoint, cell->getIntersectionWithTopEdge(*p)) << "Cell getIntersectionWithTopEdgeTest not working!";
+}
+
+TEST(CellTest, getIntersectionWithBottomEdgeTest)
+{
+    auto* p = new Point(1.0, 1.0, 1.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(2.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 2.0),
+                          *new Node(2.0, 0.0, 2.0),
+                          *new Node(0.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 2.0),
+                          *new Node(0.0, 2.0, 2.0));
+
+    auto* expectedPoint = new Point(1.0, 1.0,0.0);
+    EXPECT_EQ(*expectedPoint, cell->getIntersectionWithBottomEdge(*p)) << "Cell getIntersectionWithBottomEdgeTest not working!";
+}
+
+TEST(CellTest, getIntersectionWithFrontEdgeTest)
+{
+    auto* p = new Point(1.0, 1.0, 1.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(2.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 2.0),
+                          *new Node(2.0, 0.0, 2.0),
+                          *new Node(0.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 2.0),
+                          *new Node(0.0, 2.0, 2.0));
+
+    auto* expectedPoint = new Point(1.0, 0.0,1.0);
+    EXPECT_EQ(*expectedPoint, cell->getIntersectionWithFrontEdge(*p)) << "Cell getIntersectionWithFrontEdgeTest not working!";
+}
+
+TEST(CellTest, getIntersectionWithBackEdgeTest)
+{
+    auto* p = new Point(1.0, 1.0, 1.0);
+
+    auto* cell = new Cell(*new Node(0.0, 0.0, 0.0),
+                          *new Node(2.0, 0.0, 0.0),
+                          *new Node(0.0, 0.0, 2.0),
+                          *new Node(2.0, 0.0, 2.0),
+                          *new Node(0.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 0.0),
+                          *new Node(2.0, 2.0, 2.0),
+                          *new Node(0.0, 2.0, 2.0));
+
+    auto* expectedPoint = new Point(1.0, 2.0,1.0);
+    EXPECT_EQ(*expectedPoint, cell->getIntersectionWithBackEdge(*p)) << "Cell getIntersectionWithBackEdgeTest not working!";
+}

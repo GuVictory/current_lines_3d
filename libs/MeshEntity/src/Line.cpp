@@ -20,6 +20,13 @@ Line::Line(const Node &n1, const Node &n2) {
                                                     this->secondNode->getPoint());
 }
 
+Line::Line(const Point &p1, const Point &p2) {
+    this->firstNode = new Node(p1.getX(), p1.getY(), p1.getZ());
+    this->secondNode = new Node(p2.getX(), p2.getY(), p2.getZ());
+    this->generalFormOfLine = new GeneralFormOfLine(this->firstNode->getPoint(),
+                                                    this->secondNode->getPoint());
+}
+
 Line::Line(double x1, double y1, double z1, double x2, double y2, double z2) {
     this->firstNode = new Node(x1, y1, z1);
     this->secondNode = new Node(x2, y2, z2);
@@ -180,7 +187,7 @@ std::pair<bool, Point> Line::foundIntersectionPoint(const Line &line) {
     A[0] = std::vector<double>(2);
     A[1] = std::vector<double>(2);
 
-    if (this->generalFormOfLine->e == 0 && line.generalFormOfLine->q == 0) {
+    if (this->generalFormOfLine->e == 0 && line.generalFormOfLine->e == 0) {
         A[0][0] = this->generalFormOfLine->q;
         A[0][1] = - line.generalFormOfLine->q;
         A[1][0] = this->generalFormOfLine->w;
@@ -215,4 +222,19 @@ std::pair<bool, Point> Line::foundIntersectionPoint(const Line &line) {
     double z0 = this->generalFormOfLine->e * parameterValues.second[0] + this->generalFormOfLine->z0;
 
     return std::make_pair(true, *new Point(x0, y0, z0));
+}
+
+Line &Line::getScanLineOX(const Point &point) {
+    Line* scanLine = new Line(point, *new Point(point.getX() + 0.1, point.getY(), point.getZ()));
+    return *scanLine;
+}
+
+Line &Line::getScanLineOY(const Point &point) {
+    Line* scanLine = new Line(point, *new Point(point.getX(), point.getY() - 0.1, point.getZ()));
+    return *scanLine;
+}
+
+Line &Line::getScanLineOZ(const Point &point) {
+    Line* scanLine = new Line(point, *new Point(point.getX(), point.getY(), point.getZ() + 0.1));
+    return *scanLine;
 }
