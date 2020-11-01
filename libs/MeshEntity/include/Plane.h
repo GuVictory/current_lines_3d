@@ -8,6 +8,7 @@
 #include <Node.h>
 #include <PlaneType.h>
 #include <vector>
+#include "PlaneIntersections.h"
 
 class Plane {
 private:
@@ -37,6 +38,15 @@ public:
 
     // Метод который позволяет определить могут ли две плоскости явзятся гранями одной ячейки
     bool areSuitsPlane(const Plane& plane);
+
+    /*!
+     * Метод, который позваляет определить точки пересечения сканирующих линий из point c с ребрами ячейки
+     * @param point - точка на плоскости
+     * @return если переданная точка находится в заданной области простасти, то позвращается true, PlaneIntersections
+     *          иначе false, PlaneIntersections()
+     */
+    std::pair<bool, PlaneIntersections*> getPlaneIntersections(const Point& point);
+
 
     bool operator==(const Plane& plane) const;
 };

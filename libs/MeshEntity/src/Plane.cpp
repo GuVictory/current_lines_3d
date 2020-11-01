@@ -4,6 +4,8 @@
 
 #include "Plane.h"
 #include <iostream>
+#include <Line.h>
+#include <cmath>
 
 Plane::Plane(Node &n1, Node &n2, Node &n3, Node &n4) {
     this->nodes.push_back(&n1);
@@ -227,4 +229,77 @@ bool Plane::areSuitsPlane(const Plane &plane) {
         }
     }
     return sameNodesCounter == 2;
+}
+
+std::pair<bool, PlaneIntersections*> Plane::getPlaneIntersections(const Point &point) {
+    // Создадим линии, описывающие грани ячейки
+    Line* l1 = new Line(*this->nodes[0], *this->nodes[1]);
+    Line* l2 = new Line(*this->nodes[1], *this->nodes[2]);
+    Line* l3 = new Line(*this->nodes[2], *this->nodes[3]);
+    Line* l4 = new Line(*this->nodes[3], *this->nodes[0]);
+
+    // Исходя из типа ячейки будем искать пересечения
+    switch (this->planeType) {
+        case YZ: {
+            // Произведем проверку, что точка находится на плоскости
+            if (round(point.getX() * 100) / 100 != round(this->nodes[0]->getPoint().getX() * 100) / 100) {
+                return std::make_pair(false, new PlaneIntersections());
+            }
+            // Создадим сканирующую линию по OY
+            Line* scanLineY = new Line(Line::getScanLineOY(point));
+
+            // Создадим сканирующую линию по OZ
+            Line* scanLineZ = new Line(Line::getScanLineOZ(point));
+
+            auto* maxZ = new Point(scanLineZ->foundIntersectionPoint(*l1).second);
+            auto* maxY = new Point(scanLineY->foundIntersectionPoint(*l2).second);
+            auto* minZ = new Point(scanLineZ->foundIntersectionPoint(*l3).second);
+            auto* minY = new Point(scanLineY->foundIntersectionPoint(*l4).second);
+
+            return std::make_pair(true, new PlaneIntersections(*new Point(0.0, 0.0, 0.0),
+                                                                         *new Point(0.0, 0.0, 0.0),
+                                                                         *new Point(*minY),
+                                                                         *new Point(*maxY),
+                                                                         *new Point(*minZ),
+                                                                         *new Point(*maxZ)));
+        }
+        case XY: {
+            // Произведем проверку, что точка находится на плоскости
+            if (round(point.getZ() * 100) / 100 != round(this->nodes[0]->getPoint().getZ() * 100) / 100) {
+                return std::make_pair(false, new PlaneIntersections());
+            }
+            // Создадим сканирующую линию по OY
+            Line* scanLineY = new Line(Line::getScanLineOY(point));
+
+            // Создадим сканирующую линию по OZ
+            Line* scanLineX = new Line(Line::getScanLineOX(point));
+
+            auto* maxY = new Point(scanLineY->foundIntersectionPoint(*l1).second);
+            auto* maxX = new Point(scanLineX->foundIntersectionPoint(*l2).second);
+            auto* minY = new Point(scanLineY->foundIntersectionPoint(*l3).second);
+            auto* minX = new Point(scanLineX->foundIntersectionPoint(*l4).second);
+
+            return std::make_pair(true, new PlaneIntersections(*minX, *maxX, *minY, *maxY, *new Point(), *new Point()));
+        }
+        case XZ: {
+            // Произведем проверку, что точка находится на плоскости
+            if (round(point.getY() * 100) / 100 != round(this->nodes[0]->getPoint().getY() * 100) / 100) {
+                return std::make_pair(false, new PlaneIntersections());
+            }
+            // Создадим сканирующую линию по OY
+            Line* scanLineX = new Line(Line::getScanLineOX(point));
+
+            // Создадим сканирующую линию по OZ
+            Line* scanLineZ = new Line(Line::getScanLineOZ(point));
+
+            auto* maxZ = new Point(scanLineZ->foundIntersectionPoint(*l1).second);
+            auto* maxX = new Point(scanLineX->foundIntersectionPoint(*l2).second);
+            auto* minZ = new Point(scanLineZ->foundIntersectionPoint(*l3).second);
+            auto* minX = new Point(scanLineX->foundIntersectionPoint(*l4).second);
+
+            return std::make_pair(true, new PlaneIntersections(*minX, *maxX, *new Point(), *new Point(), *minZ, *maxZ));
+        }
+        default:
+            return std::make_pair(false, new PlaneIntersections());
+    }
 }

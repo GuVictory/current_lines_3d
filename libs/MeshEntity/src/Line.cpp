@@ -141,7 +141,7 @@ bool Line::areParallel(const Line &line) {
         lambdaE = line.generalFormOfLine->e == 0 ? 0 : this->generalFormOfLine->e / line.generalFormOfLine->e;
     }
 
-    if( this->generalFormOfLine->x0 == 0
+    /* if( this->generalFormOfLine->x0 == 0
         && line.generalFormOfLine->x0 == 0
         && this->generalFormOfLine->q == 0
         && line.generalFormOfLine->q == 0) {
@@ -161,6 +161,8 @@ bool Line::areParallel(const Line &line) {
         && line.generalFormOfLine->e == 0) {
         return lambdaQ == lambdaW;
     }
+
+     */
 
     return lambdaQ == lambdaW && lambdaW == lambdaE;
 }

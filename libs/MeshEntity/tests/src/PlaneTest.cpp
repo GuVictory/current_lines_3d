@@ -147,3 +147,71 @@ TEST(PlaneTest, suitsPlanesTest5)
     auto* p2 = new Plane(*n5, *n6, *n7, *n8);
     EXPECT_FALSE(p1->areSuitsPlane(*p2)) << "areSuitsPlane5 not working";
 }
+
+TEST(PlaneTest, getPlaneIntersectionsYZ)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(0.0, 0.0, 2.0);
+    auto* n3 = new Node(0.0, 2.0, 2.0);
+    auto* n4 = new Node(0.0, 2.0, 0.0);
+
+    auto* p = new Plane(*n1, *n2, *n3, *n4);
+
+    auto* point = new Point(0.0, 1.0, 1.0);
+    auto* expected = new PlaneIntersections(
+            *new Point(),
+            *new Point(),
+            *new Point(0.0, 0.0, 1.0),
+            *new Point(0.0, 2.0, 1.0),
+            *new Point(0.0, 1.0, 0.0),
+            *new Point(0.0, 1.0, 2.0));
+    auto* result = p->getPlaneIntersections(*point).second;
+
+    EXPECT_EQ(*expected, *result) << "getPlaneIntersectionsYZ isn\'t correct";
+}
+
+TEST(PlaneTest, getPlaneIntersectionsXY)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(0.0, 2.0, 0.0);
+    auto* n3 = new Node(2.0, 2.0, 0.0);
+    auto* n4 = new Node(2.0, 0.0, 0.0);
+
+    auto* p = new Plane(*n1, *n2, *n3, *n4);
+
+    auto* point = new Point(1.0, 1.0, 0.0);
+
+    auto* expected = new PlaneIntersections(
+            *new Point(0.0, 1.0, 0.0),
+            *new Point(2.0, 1.0, 0.0),
+            *new Point(1.0, 0.0, 0.0),
+            *new Point(1.0, 2.0, 0.0),
+            *new Point(),
+            *new Point());
+    auto* result = p->getPlaneIntersections(*point).second;
+
+    EXPECT_EQ(*expected, *result) << "getPlaneIntersectionsXY isn\'t correct";
+}
+
+TEST(PlaneTest, getPlaneIntersectionsXZ)
+{
+    auto* n1 = new Node(0.0, 0.0, 0.0);
+    auto* n2 = new Node(2.0, 0.0, 0.0);
+    auto* n3 = new Node(2.0, 0.0, 2.0);
+    auto* n4 = new Node(0.0, 0.0, 2.0);
+
+    auto* p = new Plane(*n1, *n2, *n3, *n4);
+
+    auto* point = new Point(1.0, 0.0, 1.0);
+
+    auto* expected = new PlaneIntersections(
+            *new Point(0.0, 0.0, 1.0),
+            *new Point(2.0, 0.0, 1.0),
+            *new Point(),
+            *new Point(),
+            *new Point(1.0, 0.0, 0.0),
+            *new Point(1.0, 0.0, 2.0));
+    auto* result = p->getPlaneIntersections(*point).second;
+
+    EXPECT_EQ(*expected, *result) << "getPlaneIntersectionsXZ isn\'t correct";
+}
