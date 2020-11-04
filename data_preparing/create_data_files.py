@@ -10,6 +10,9 @@ def create_nodes_file():
         line = source_f.readline().split(' ')
         real_node_counter = int(line[1])
 
+        with open("data_preparing/prepared_files/nodes.dat", "w") as prepared_f:
+            prepared_f.write(f'{real_node_counter}\n')
+
         for ind in range(real_node_counter):
             node = source_f.readline().split(' ')
             x = float(node[6])
@@ -25,7 +28,7 @@ def create_nodes_file():
                 z = float(field[2])
                 result_nodes_lines[ind] += f'{x} {y} {z}\n'
 
-    with open("data_preparing/prepared_files/nodes.dat", "w") as prepared_f:
+    with open("data_preparing/prepared_files/nodes.dat", "a") as prepared_f:
         prepared_f.writelines(result_nodes_lines)
 
 
@@ -61,6 +64,10 @@ def create_hexahedrons_file():
         # Потом уже идут нужные нам гексаэдры
         line = source_f.readline().split(' ')
         counter = int(line[0])
+
+        with open("data_preparing/prepared_files/hexahedrons.dat", "w") as prepared_f:
+            prepared_f.write(f'{counter}\n')
+
         for ind in range(counter):
             hexahedron = source_f.readline().split(' ')
             node1 = int(hexahedron[0])
@@ -73,7 +80,7 @@ def create_hexahedrons_file():
             node8 = int(hexahedron[7])
             hexahedrons_result.append(f'{ind} {node1} {node2} {node3} {node4} {node5} {node6} {node7} {node8}\n')
 
-    with open("data_preparing/prepared_files/hexahedrons.dat", "w") as prepared_f:
+    with open("data_preparing/prepared_files/hexahedrons.dat", "a") as prepared_f:
         prepared_f.writelines(hexahedrons_result)
 
 
