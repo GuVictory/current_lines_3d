@@ -34,3 +34,13 @@ id x y z field_x field_y field_z
 ...  
 id x y z field_x field_y field_z
 ```
+
+* Файл с гексаэдарами хранит данные в формате:  
+```
+hexahedron_counts  
+id node1 node2 node3 node4 node5 node6 node7 node8
+...  
+id node1 node2 node3 node4 node5 node6 node7 node8
+```
+
+---
