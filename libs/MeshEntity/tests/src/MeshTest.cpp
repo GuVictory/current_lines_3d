@@ -45,7 +45,7 @@ TEST(MeshTest, meshNodeFieldChangeTest)
     EXPECT_EQ(node->getField().getVectorField(), f->getVectorField()) << "Mesh node count not working";
 }
 
-TEST(MeshTest, addPlaneToMeshTest)
+TEST(MeshTest, addCellTest)
 {
     auto* mesh = new Mesh();
     mesh->loadNode(*new Node(1, 0.0, 0.0, 0.0));
@@ -53,43 +53,12 @@ TEST(MeshTest, addPlaneToMeshTest)
     mesh->loadNode(*new Node(3, 1.0, 0.0, 1.0));
     mesh->loadNode(*new Node(4, 1.0, 0.0, 0.0));
 
-    mesh->loadPlane(1, 2, 3, 4);
+    mesh->loadNode(*new Node(5, 0.0, 1.0, 0.0));
+    mesh->loadNode(*new Node(6, 0.0, 1.0, 1.0));
+    mesh->loadNode(*new Node(7, 1.0, 1.0, 1.0));
+    mesh->loadNode(*new Node(8, 1.0, 1.0, 0.0));
 
-    EXPECT_EQ(mesh->sizeOfPlaneBasket(), 1) << "Mesh sizeOfPlaneBasket not working";
-}
+    mesh->loadCell(1, 1, 2, 3, 4, 5, 6, 7, 8);
 
-TEST(MeshTest, addPlaneToMeshTest2)
-{
-    auto* mesh = new Mesh();
-    mesh->loadNode(*new Node(1, 0.0, 0.0, 0.0));
-    mesh->loadNode(*new Node(2, 0.0, 0.0, 1.0));
-    mesh->loadNode(*new Node(3, 1.0, 0.0, 1.0));
-    mesh->loadNode(*new Node(4, 1.0, 0.0, 0.0));
-
-    mesh->loadNode(*new Node(5, 1.0, 1.0, 1.0));
-    mesh->loadNode(*new Node(6, 1.0, 1.0, 0.0));
-
-    mesh->loadPlane(1, 2, 3, 4);
-    mesh->loadPlane(3, 4, 5, 6);
-
-    EXPECT_EQ(mesh->sizeOfPlaneBasket(), 1) << "Mesh sizeOfPlaneBasket2 not working";
-}
-
-TEST(MeshTest, addPlaneToMeshTest3)
-{
-    auto* mesh = new Mesh();
-    mesh->loadNode(*new Node(1, 0.0, 0.0, 0.0));
-    mesh->loadNode(*new Node(2, 0.0, 0.0, 1.0));
-    mesh->loadNode(*new Node(3, 1.0, 0.0, 1.0));
-    mesh->loadNode(*new Node(4, 1.0, 0.0, 0.0));
-
-    mesh->loadNode(*new Node(5, 0.0, 0.0, 0.0));
-    mesh->loadNode(*new Node(6, 0.0, 0.0, 1.0));
-    mesh->loadNode(*new Node(7, 1.0, 0.0, 1.0));
-    mesh->loadNode(*new Node(8, 1.0, 0.0, 0.0));
-
-    mesh->loadPlane(1, 2, 3, 4);
-    mesh->loadPlane(3, 4, 5, 6);
-
-    EXPECT_EQ(mesh->sizeOfPlaneBasket(), 1) << "Mesh sizeOfPlaneBasket3 not working";
+    EXPECT_EQ(mesh->numberOfCells(), 1) << "Mesh addCellTest not working";
 }

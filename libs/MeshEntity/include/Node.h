@@ -26,10 +26,12 @@ public:
     ~Node();
 
     void setPoint(double newX, double newY, double newZ = 0);
+    void setField(double newX, double newY, double newZ = 0);
     void setPoint(const Point& newPoint);
     Point& getPoint();
     Field& getField();
     unsigned int getId();
+    void setId(unsigned int newId);
 
     bool operator==(const Node& node) const;
     friend std::ostream& operator<<(std::ostream &out, const Node &node);

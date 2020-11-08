@@ -23,7 +23,7 @@ Cell::~Cell() {
     this->nodes.clear();
 }
 
-bool Cell::operator==(const Cell &cell) {
+bool Cell::operator==(const Cell &cell) const {
     for(int i = 0; i < 8; ++i) {
         if (this->nodes.at(i) != cell.nodes.at(i)) {
             return false;

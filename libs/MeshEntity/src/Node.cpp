@@ -80,5 +80,13 @@ unsigned int Node::getId() {
     return this->id;
 }
 
+void Node::setField(double newX, double newY, double newZ) {
+    this->field->setCoords(newX, newY, newZ);
+}
+
+void Node::setId(unsigned int newId) {
+    this->id = newId;
+}
+
 
 

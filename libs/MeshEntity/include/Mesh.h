@@ -15,25 +15,30 @@
 class Mesh {
 private:
     std::map<unsigned int, Node*> nodes;
-    std::vector<Cell*> cells;
-    std::list<std::vector<Plane>> planesBasket;
+    std::vector<Cell> cells;
 
     MeshType meshType;
 
-    void addToPlanesBasket(const Plane& plane);
 public:
     Mesh();
     ~Mesh();
 
     unsigned int numberOfNodes();
     unsigned int numberOfCells();
-    unsigned int sizeOfPlaneBasket();
 
     void loadNode(Node& node);
     std::pair<bool, Node*> getNode(unsigned int nodeId);
     bool changeFieldOfNode(unsigned int nodeId, const Field& field);
 
-    void loadPlane(unsigned int id1, unsigned int id2, unsigned int id3, unsigned int id4);
+    bool loadCell(int cellId,
+                  int nodeId1,
+                  int nodeId2,
+                  int nodeId3,
+                  int nodeId4,
+                  int nodeId5,
+                  int nodeId6,
+                  int nodeId7,
+                  int nodeId8);
 };
 
 

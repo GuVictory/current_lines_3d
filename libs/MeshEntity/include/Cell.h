@@ -120,7 +120,7 @@ public:
      */
     Point& getIntersectionWithBottomEdge(const Point &point);
 
-    bool operator==(const Cell& cell);
+    bool operator==(const Cell& cell) const;
 };
 
 
