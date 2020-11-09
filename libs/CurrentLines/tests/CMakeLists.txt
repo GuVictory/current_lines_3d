@@ -10,6 +10,6 @@ add_executable(CurrentLinesTests
         src/CurrentLineGeneratorTest.cpp)
 
 target_link_libraries(
-        CurrentLinesTests ${GTEST_LIBRARIES} Threads::Threads CurrentLines)
+        CurrentLinesTests ${GTEST_LIBRARIES} Threads::Threads CurrentLines MeshWorker)
 
 add_test(CurrentLinesTests "./test")

@@ -11,11 +11,11 @@ Mesh::~Mesh() {
     this->cells.clear();
 }
 
-unsigned int Mesh::numberOfNodes() {
+unsigned int Mesh::numberOfNodes() const {
     return this->nodes.size();
 }
 
-unsigned int Mesh::numberOfCells() {
+unsigned int Mesh::numberOfCells() const {
     return this->cells.size();
 }
 

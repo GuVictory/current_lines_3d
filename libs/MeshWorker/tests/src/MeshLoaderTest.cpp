@@ -46,9 +46,9 @@ TEST(MeshLoaderTest, loadCellsTest)
     std::vector<Node> nodeResult;
     nodeResult = mesh->loadNodes();
 
-    std::vector<Cell> result;
+    std::vector<std::tuple<long, long, long, long, long, long, long, long, long>> result;
 
-    result = mesh->loadCells(nodeResult);
+    result = mesh->loadCells();
 
     EXPECT_EQ(result.size(), 95728) << "MeshLoader loadCellsTest not working";
 }
@@ -61,20 +61,12 @@ TEST(MeshLoaderTest, loadCellsTest2)
     std::vector<Node> nodeResult;
     nodeResult = mesh->loadNodes();
 
-    std::vector<Cell> result;
-    result = mesh->loadCells(nodeResult);
+    std::vector<std::tuple<long, long, long, long, long, long, long, long, long>> result;
+    result = mesh->loadCells();
 
     // 0 88202 0 2793 91367 89555 1029 1911 90461
 
-    Cell* testCell = new Cell(nodeResult[88202],
-                              nodeResult[0],
-                              nodeResult[2793],
-                              nodeResult[91367],
-                              nodeResult[89555],
-                              nodeResult[1029],
-                              nodeResult[1911],
-                              nodeResult[90461],
-                              0);
+    auto testCell = std::make_tuple(0, 88202, 0, 2793, 91367, 89555, 1029, 1911, 90461);
 
-    EXPECT_EQ(result[0], *testCell) << "MeshLoader loadCellsTest2 not working";
+    EXPECT_EQ(result[0], testCell) << "MeshLoader loadCellsTest2 not working";
 }

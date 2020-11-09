@@ -23,7 +23,7 @@ public:
     ~MeshLoader();
 
     std::vector<Node> loadNodes();
-    std::vector<Cell> loadCells(std::vector<Node>& nodes);
+    std::vector<std::tuple<long, long, long, long, long, long, long, long, long>> loadCells();
 };
 
 

@@ -14,17 +14,17 @@
 
 class Mesh {
 private:
-    std::map<unsigned int, Node*> nodes;
-    std::vector<Cell> cells;
-
     MeshType meshType;
 
 public:
+    std::map<unsigned int, Node*> nodes;
+    std::vector<Cell> cells;
+
     Mesh();
     ~Mesh();
 
-    unsigned int numberOfNodes();
-    unsigned int numberOfCells();
+    unsigned int numberOfNodes() const;
+    unsigned int numberOfCells() const;
 
     void loadNode(Node& node);
     std::pair<bool, Node*> getNode(unsigned int nodeId);

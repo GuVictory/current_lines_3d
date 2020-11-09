@@ -63,7 +63,7 @@ void MeshLoader::tokenize(std::string &str, char delim, std::vector<T> &out) {
     }
 }
 
-std::vector<Cell> MeshLoader::loadCells(std::vector<Node> &nodes) {
+std::vector<std::tuple<long, long, long, long, long, long, long, long, long>> MeshLoader::loadCells() {
     std::ifstream in(this->cellsFilename);
 
     if(!in) {
@@ -77,7 +77,7 @@ std::vector<Cell> MeshLoader::loadCells(std::vector<Node> &nodes) {
 
     int numberOfCells = std::stoi( line );
 
-    std::vector<Cell> cells;
+    std::vector<std::tuple<long, long, long, long, long, long, long, long, long>> cells;
 
     std::vector<int> currentCellData;
 
@@ -86,15 +86,15 @@ std::vector<Cell> MeshLoader::loadCells(std::vector<Node> &nodes) {
         this->tokenize(line, ' ', currentCellData);
 
         // id node1 node2 node3 node4 node5 node6 node7 node8
-        cells.push_back(*new Cell(nodes[currentCellData[1]],
-                                  nodes[currentCellData[2]],
-                                  nodes[currentCellData[3]],
-                                  nodes[currentCellData[4]],
-                                  nodes[currentCellData[5]],
-                                  nodes[currentCellData[6]],
-                                  nodes[currentCellData[7]],
-                                  nodes[currentCellData[8]],
-                                  currentCellData[0]));
+        cells.emplace_back(currentCellData[0],
+                                        currentCellData[1],
+                                        currentCellData[2],
+                                        currentCellData[3],
+                                        currentCellData[4],
+                                        currentCellData[5],
+                                        currentCellData[6],
+                                        currentCellData[7],
+                                        currentCellData[8]);
     }
 
     return cells;
