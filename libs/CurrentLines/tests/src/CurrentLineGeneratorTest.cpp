@@ -8,7 +8,7 @@
 #include "CurrentLineGenerator.h"
 
 
-TEST(CurrentLineGenerator, interpolationTest)
+TEST(CurrentLineGenerator, localizationTest)
 {
 auto* meshLoader = new MeshLoader("nodes.dat",
                             "hexahedrons.dat");
@@ -40,10 +40,10 @@ for(auto & cell : cells) {
 
 auto * clGen = new CurrentLineGenerator(*mesh, *new Point(0.01, 0.01, 0.01));
 
-EXPECT_EQ(clGen->localization(), 6) << "CurrentLineGenerator interpolationTest not working";
+EXPECT_EQ(clGen->localization(), 6) << "CurrentLineGenerator localizationTest not working";
 }
 
-TEST(CurrentLineGenerator, interpolationTest2)
+TEST(CurrentLineGenerator, localizationTest2)
 {
     auto* meshLoader = new MeshLoader("nodes.dat",
                                       "hexahedrons.dat");
@@ -75,5 +75,5 @@ TEST(CurrentLineGenerator, interpolationTest2)
 
     auto * clGen = new CurrentLineGenerator(*mesh, *new Point(2.01, 0.01, 0.01));
 
-    EXPECT_EQ(clGen->localization(), -1) << "CurrentLineGenerator interpolationTest2 not working";
+    EXPECT_EQ(clGen->localization(), -1) << "CurrentLineGenerator localizationTest2 not working";
 }

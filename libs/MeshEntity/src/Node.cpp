@@ -68,15 +68,15 @@ std::ostream &operator<<(std::ostream &out, const Node &node) {
     return out;
 }
 
-Point &Node::getPoint() {
+Point &Node::getPoint() const {
     return *this->point;
 }
 
-Field &Node::getField() {
+Field &Node::getField() const {
     return *this->field;
 }
 
-unsigned int Node::getId() {
+unsigned int Node::getId() const {
     return this->id;
 }
 

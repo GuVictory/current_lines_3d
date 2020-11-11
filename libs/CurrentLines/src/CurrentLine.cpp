@@ -2,7 +2,7 @@
 // Created by Виктория Губанова on 09.11.2020.
 //
 
-#include "../include/CurrentLine.h"
+#include "CurrentLine.h"
 
 CurrentLine::CurrentLine(Node &node): step(0.001) {
     this->currentLine.push_back(node);

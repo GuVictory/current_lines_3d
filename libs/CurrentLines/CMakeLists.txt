@@ -1,7 +1,7 @@
 # Добавить в сборку статическую библиотеку "CurrentLines":
 add_library(CurrentLines STATIC
             src/CurrentLineGenerator.cpp
-            src/Interpolation.cpp
+            src/Interpolator.cpp
             src/CurrentLine.cpp)
 
 # Применяется лишь для цели "CurrentLines":

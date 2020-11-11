@@ -28,9 +28,9 @@ public:
     void setPoint(double newX, double newY, double newZ = 0);
     void setField(double newX, double newY, double newZ = 0);
     void setPoint(const Point& newPoint);
-    Point& getPoint();
-    Field& getField();
-    unsigned int getId();
+    Point& getPoint() const;
+    Field& getField() const;
+    unsigned int getId() const;
     void setId(unsigned int newId);
 
     bool operator==(const Node& node) const;

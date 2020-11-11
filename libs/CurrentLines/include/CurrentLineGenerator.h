@@ -12,6 +12,7 @@ class CurrentLineGenerator {
     CurrentLine* currentLine;
     Mesh* mesh;
 public:
+    //! Конструктор принимает стартовую базовую точку и сетку, на которой будет строится линия тока
     CurrentLineGenerator(Mesh& pmesh, Point& basePoint);
 
     //! Метод для локализации текущей базовой точки
