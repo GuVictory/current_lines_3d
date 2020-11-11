@@ -14,7 +14,7 @@ private:
     std::vector<Node> currentLine;
     double step;
 public:
-    CurrentLine(Node& node);
+    explicit CurrentLine(Node& node);
     CurrentLine(Node& node, double pstep);
     ~CurrentLine();
 

@@ -120,7 +120,43 @@ public:
      */
     Point& getIntersectionWithBottomEdge(const Point &point);
 
+    double getHeight();
+    double getWidth();
+    double getDepth();
+
     bool operator==(const Cell& cell) const;
+
+    Node* V1() {
+        return this->nodes[0];
+    }
+
+    Node* V2() {
+        return this->nodes[1];
+    }
+
+    Node* V3() {
+        return this->nodes[2];
+    }
+
+    Node* V4() {
+        return this->nodes[3];
+    }
+
+    Node* V5() {
+        return this->nodes[4];
+    }
+
+    Node* V6() {
+        return this->nodes[5];
+    }
+
+    Node* V7() {
+        return this->nodes[6];
+    }
+
+    Node* V8() {
+        return this->nodes[7];
+    }
 };
 
 

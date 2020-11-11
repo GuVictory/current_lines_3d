@@ -11,6 +11,8 @@
 class CurrentLineGenerator {
     CurrentLine* currentLine;
     Mesh* mesh;
+
+    int currentCellId;
 public:
     //! Конструктор принимает стартовую базовую точку и сетку, на которой будет строится линия тока
     CurrentLineGenerator(Mesh& pmesh, Point& basePoint);
@@ -19,6 +21,9 @@ public:
     //! \return id ячейки, в которой находится базовая точка
     //! \return -1, если такая ячейка не найдена
     int localization();
+
+    //! Метод генерирующий линию тока, вызывает интерполяцию
+    void generateCurrentLine();
 };
 
 

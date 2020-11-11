@@ -263,5 +263,20 @@ Point &Cell::getIntersectionWithBottomEdge(const Point &point) {
     return *result;
 }
 
+double Cell::getHeight() {
+    auto* V1V4 = new Line(this->V1()->getPoint(), this->V4()->getPoint());
+    return V1V4->len();
+}
+
+double Cell::getWidth() {
+    auto* V1V2 = new Line(this->V1()->getPoint(), this->V2()->getPoint());
+    return V1V2->len();
+}
+
+double Cell::getDepth() {
+    auto* V1V5= new Line(this->V1()->getPoint(), this->V5()->getPoint());
+    return V1V5->len();
+}
+
 
 
