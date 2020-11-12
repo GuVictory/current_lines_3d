@@ -43,6 +43,8 @@ private:
 
 public:
     Cell();
+
+    // TODO: При создании ячейки добавить сортировку узлов
     Cell(Node& n1,
          Node& n2,
          Node& n3,

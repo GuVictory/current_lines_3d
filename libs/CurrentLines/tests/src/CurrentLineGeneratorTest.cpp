@@ -77,3 +77,38 @@ TEST(CurrentLineGenerator, localizationTest2)
 
     EXPECT_EQ(clGen->localization(), -1) << "CurrentLineGenerator localizationTest2 not working";
 }
+
+TEST(CurrentLineGenerator, currentLineGenerationTest)
+{
+    auto* meshLoader = new MeshLoader("nodes.dat",
+                                      "hexahedrons.dat");
+
+
+    auto* mesh = new Mesh();
+
+    std::vector<Node> nodes;
+    nodes = meshLoader->loadNodes();
+
+    std::vector<std::tuple<long, long, long, long, long, long, long, long, long>> cells;
+    cells = meshLoader->loadCells();
+
+    for(auto & node : nodes) {
+        mesh->loadNode(node);
+    }
+
+    for(auto & cell : cells) {
+        mesh->loadCell(std::get<0>(cell),
+                       std::get<1>(cell),
+                       std::get<2>(cell),
+                       std::get<3>(cell),
+                       std::get<4>(cell),
+                       std::get<5>(cell),
+                       std::get<6>(cell),
+                       std::get<7>(cell),
+                       std::get<8>(cell));
+    }
+
+    auto * clGen = new CurrentLineGenerator(*mesh, *new Point(0.0, 0.0, 0.0));
+
+    //EXPECT_EQ(clGen->localization(), -1) << "CurrentLineGenerator localizationTest2 not working";
+}
