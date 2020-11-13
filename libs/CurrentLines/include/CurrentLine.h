@@ -11,7 +11,7 @@
 
 class CurrentLine {
 private:
-    std::vector<Node> currentLine;
+    std::vector<Node*> currentLine;
     double step;
 public:
     explicit CurrentLine(Node& node);
@@ -22,6 +22,8 @@ public:
     void addNode();
     void setFieldOfNewNode(double fieldX, double fieldY, double fieldZ);
     int getLength();
+
+    std::vector<Node*> getCurentLineNodes();
 };
 
 

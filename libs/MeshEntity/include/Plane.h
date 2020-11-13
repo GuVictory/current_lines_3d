@@ -49,6 +49,22 @@ public:
 
 
     bool operator==(const Plane& plane) const;
+
+    Node* V1() const {
+        return this->nodes[0];
+    }
+
+    Node* V2() const {
+        return this->nodes[1];
+    }
+
+    Node* V3() const {
+        return this->nodes[2];
+    }
+
+    Node* V4() const {
+        return this->nodes[3];
+    }
 };
 
 

@@ -4,14 +4,15 @@
 #include <gtest/gtest.h>
 
 #include "MeshLoader.h"
+#include "MeshUnloading.h"
 #include "Mesh.h"
 #include "CurrentLineGenerator.h"
 
 
 TEST(CurrentLineGenerator, localizationTest)
 {
-auto* meshLoader = new MeshLoader("nodes.dat",
-                            "hexahedrons.dat");
+auto* meshLoader = new MeshLoader("nodes_small.dat",
+                            "hexahedrons_small.dat");
 
 
 auto* mesh = new Mesh();
@@ -45,8 +46,8 @@ EXPECT_EQ(clGen->localization(), 6) << "CurrentLineGenerator localizationTest no
 
 TEST(CurrentLineGenerator, localizationTest2)
 {
-    auto* meshLoader = new MeshLoader("nodes.dat",
-                                      "hexahedrons.dat");
+    auto* meshLoader = new MeshLoader("nodes_small.dat",
+                                      "hexahedrons_small.dat");
 
 
     auto* mesh = new Mesh();
@@ -110,5 +111,9 @@ TEST(CurrentLineGenerator, currentLineGenerationTest)
 
     auto * clGen = new CurrentLineGenerator(*mesh, *new Point(0.0, 0.0, 0.0));
 
-    //EXPECT_EQ(clGen->localization(), -1) << "CurrentLineGenerator localizationTest2 not working";
+    clGen->generateCurrentLine();
+
+    auto* meshUnloader = new MeshUnloading("currentLine.dat");
+
+    meshUnloader->unloadCurrentLine(clGen->getCurrentLine()->getCurentLineNodes());
 }

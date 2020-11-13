@@ -1,5 +1,5 @@
 # Добавить в сборку статическую библиотеку "MeshWorker":
-add_library(MeshWorker STATIC src/MeshLoader.cpp)
+add_library(MeshWorker STATIC src/MeshLoader.cpp src/MeshUnloading.cpp)
 
 # Применяется лишь для цели "MeshWorker":
 target_include_directories(MeshWorker PUBLIC ./include ${CMAKE_CURRENT_SOURCE_DIR} MeshEntity)

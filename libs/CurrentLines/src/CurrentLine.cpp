@@ -5,11 +5,11 @@
 #include "CurrentLine.h"
 
 CurrentLine::CurrentLine(Node &node): step(0.001) {
-    this->currentLine.push_back(node);
+    this->currentLine.push_back(new Node(node));
 }
 
 CurrentLine::CurrentLine(Node &node, double pstep): step(pstep) {
-    this->currentLine.push_back(node);
+    this->currentLine.push_back(new Node(node));
 }
 
 CurrentLine::~CurrentLine() {
@@ -17,7 +17,7 @@ CurrentLine::~CurrentLine() {
 }
 
 Node &CurrentLine::getNode() {
-    return currentLine.at(this->getLength() - 1);
+    return *currentLine.at(this->getLength() - 1);
 }
 
 void CurrentLine::addNode() {
@@ -31,7 +31,8 @@ void CurrentLine::addNode() {
     double newZ = this->getNode().getPoint().getZ() +
                     this->step * this->getNode().getField().getNormalizeVectorField().getZ();
 
-    currentLine.push_back(*new Node(newX, newY, newZ));
+    //Node* newNode = new Node(newX, newY, newZ);
+    currentLine.push_back(new Node(newX, newY, newZ));
 }
 
 void CurrentLine::setFieldOfNewNode(double fieldX, double fieldY, double fieldZ) {
@@ -40,5 +41,9 @@ void CurrentLine::setFieldOfNewNode(double fieldX, double fieldY, double fieldZ)
 
 int CurrentLine::getLength() {
     return currentLine.size();
+}
+
+std::vector<Node *> CurrentLine::getCurentLineNodes() {
+    return this->currentLine;
 }
 

@@ -15,8 +15,6 @@ CurrentLineGenerator::CurrentLineGenerator(Mesh &pmesh, Point &basePoint) {
 
     if (this->currentCellId == -1) {
         std::cout << "Базовая точка не входит в область сетки" << std::endl;
-    } else {
-        generateCurrentLine();
     }
 }
 
@@ -63,11 +61,11 @@ void CurrentLineGenerator::generateCurrentLine() {
         double width = this->mesh->cells[this->currentCellId].getWidth();
         double depth = this->mesh->cells[this->currentCellId].getDepth();
 
-        // Получим линию соединяющую верхнюю грань ячейки и базовую точку
-        Line* topA = new Line(this->currentLine->getNode(),
+        // Получим линию соединяющую нижнюю грань ячейки и базовую точку
+        Line* bottomA = new Line(this->currentLine->getNode(),
                               *new Node(this->currentLine->getNode().getPoint().getX(),
                                         this->currentLine->getNode().getPoint().getY(),
-                                        this->mesh->cells[this->currentCellId].V1()->getPoint().getZ()));
+                                        this->mesh->cells[this->currentCellId].V4()->getPoint().getZ()));
 
         // Получим линию соединяющую переднюю грань ячейки и базовую точку
         Line* frontA = new Line(this->currentLine->getNode(),
@@ -82,7 +80,7 @@ void CurrentLineGenerator::generateCurrentLine() {
                                          this->currentLine->getNode().getPoint().getZ()));
 
         // Находим значения параметров интерполяции
-        double tau = topA->len() / height;
+        double tau = bottomA->len() / height;
         double omega = frontA->len() / depth;
         double gamma = leftA->len() / width;
 
@@ -155,6 +153,10 @@ void CurrentLineGenerator::generateCurrentLine() {
     }
 
     std::cout << "Построение лини тока закончилось, базовая точка вышла за пределы сетки" << std::endl;
+}
+
+CurrentLine* CurrentLineGenerator::getCurrentLine() {
+    return this->currentLine;
 }
 
 

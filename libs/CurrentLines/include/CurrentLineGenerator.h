@@ -24,6 +24,8 @@ public:
 
     //! Метод генерирующий линию тока, вызывает интерполяцию
     void generateCurrentLine();
+
+    CurrentLine* getCurrentLine();
 };
 
 

@@ -129,35 +129,35 @@ public:
     bool operator==(const Cell& cell) const;
 
     Node* V1() {
-        return this->nodes[0];
+        return this->getTopPlane().V4();
     }
 
     Node* V2() {
-        return this->nodes[1];
+        return this->getTopPlane().V3();
     }
 
     Node* V3() {
-        return this->nodes[2];
+        return this->getBottomPlane().V3();
     }
 
     Node* V4() {
-        return this->nodes[3];
+        return this->getBottomPlane().V4();
     }
 
     Node* V5() {
-        return this->nodes[4];
+        return this->getTopPlane().V1();
     }
 
     Node* V6() {
-        return this->nodes[5];
+        return this->getTopPlane().V2();
     }
 
     Node* V7() {
-        return this->nodes[6];
+        return this->getBottomPlane().V2();
     }
 
     Node* V8() {
-        return this->nodes[7];
+        return this->getBottomPlane().V1();
     }
 };
 
