@@ -81,8 +81,8 @@ TEST(CurrentLineGenerator, localizationTest2)
 
 TEST(CurrentLineGenerator, currentLineGenerationTest)
 {
-    auto* meshLoader = new MeshLoader("nodes.dat",
-                                      "hexahedrons.dat");
+    auto* meshLoader = new MeshLoader("nodes_small.dat",
+                                      "hexahedrons_small.dat");
 
 
     auto* mesh = new Mesh();

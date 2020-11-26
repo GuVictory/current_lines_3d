@@ -3,6 +3,7 @@
 //
 
 #include "Cell.h"
+#include <cmath>
 
 Cell::Cell() : id(0) {
     this->nodes = std::vector<Node*>(8);
@@ -76,34 +77,33 @@ EdgeValues Cell::getZEdgeValues() {
 
 Plane &Cell::getSuitablePlane(CellFaces face, double coord) {
     std::vector<Node*> suitableNodes;
+
+    std::vector<std::pair<double, int>> deltaForNodes = std::vector<std::pair<double, int>>(8);
+
     if ( face == CellFaces::FRONT || face == CellFaces::BACK ) {
         for (int i = 0; i < 8; ++i) {
-            if ( this->nodes.at(i)->getPoint().getY() == coord ) {
-                suitableNodes.push_back(this->nodes.at(i));
-            }
-            if (suitableNodes.size() == 4) {
-                break;
-            }
+            deltaForNodes[i].first = abs(this->nodes.at(i)->getPoint().getY() - coord);
+            deltaForNodes[i].second = i;
         }
     } else if ( face == CellFaces::LEFT || face == CellFaces::RIGHT ) {
         for (int i = 0; i < 8; ++i) {
-            if ( this->nodes.at(i)->getPoint().getX() == coord ) {
-                suitableNodes.push_back(this->nodes.at(i));
-            }
-            if (suitableNodes.size() == 4) {
-                break;
-            }
+            deltaForNodes[i].first = abs(this->nodes.at(i)->getPoint().getX() - coord);
+            deltaForNodes[i].second = i;
         }
     } else {
         for (int i = 0; i < 8; ++i) {
-            if ( this->nodes.at(i)->getPoint().getZ() == coord ) {
-                suitableNodes.push_back(this->nodes.at(i));
-            }
-            if (suitableNodes.size() == 4) {
-                break;
+            for (int i = 0; i < 8; ++i) {
+                deltaForNodes[i].first = abs(this->nodes.at(i)->getPoint().getZ() - coord);
+                deltaForNodes[i].second = i;
             }
         }
     }
+
+    std::sort(deltaForNodes.begin(), deltaForNodes.end());
+    suitableNodes.push_back(this->nodes[deltaForNodes[0].second]);
+    suitableNodes.push_back(this->nodes[deltaForNodes[1].second]);
+    suitableNodes.push_back(this->nodes[deltaForNodes[2].second]);
+    suitableNodes.push_back(this->nodes[deltaForNodes[3].second]);
 
     auto* plane = new Plane(*suitableNodes.at(0),
                             *suitableNodes.at(1),

@@ -38,7 +38,9 @@ TEST(CellTest, getBackPlaneTest)
                           *new Node(1.0, 1.0, 1.0),
                           *new Node(0.0, 1.0, 1.0));
 
-    EXPECT_EQ(*p, cell->getBackPlane()) << "Back cell field isn\'t correct";
+    auto exp = cell->getBackPlane();
+
+    EXPECT_EQ(*p, exp) << "Back cell field isn\'t correct";
 }
 
 TEST(CellTest, getRightPlaneTest)
@@ -57,7 +59,9 @@ TEST(CellTest, getRightPlaneTest)
                           *new Node(1.0, 1.0, 1.0),
                           *new Node(0.0, 1.0, 1.0));
 
-    EXPECT_EQ(*p, cell->getRightPlane()) << "Right cell field isn\'t correct";
+    auto res = cell->getRightPlane();
+
+    EXPECT_EQ(*p, res) << "Right cell field isn\'t correct";
 }
 
 TEST(CellTest, getLeftPlaneTest)
@@ -76,6 +80,7 @@ TEST(CellTest, getLeftPlaneTest)
                           *new Node(1.0, 1.0, 1.0),
                           *new Node(0.0, 1.0, 1.0));
 
+    auto exp = cell->getLeftPlane();
     EXPECT_EQ(*p, cell->getLeftPlane()) << "Left cell field isn\'t correct";
 }
 

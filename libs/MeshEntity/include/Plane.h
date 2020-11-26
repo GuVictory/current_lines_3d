@@ -17,16 +17,22 @@ private:
 
     void setPlaneType();
     void mainNodesSort();
-    void sortYZ();
-    void sortXY();
-    void sortXZ();
+    void sortLEFT_RIGHT();
+    void sortTOP_BOTTOM();
+    void sortFRONT_BACK();
 
-    bool checkYZ();
-    bool checkXY();
-    bool checkXZ();
 
     // Метод для определения имеет ли ячейка 4 уникальных узла или же они попарно совпадают
     bool checkIsCorrectPlane();
+
+    // Методы для нахождения максимальной дистанции относиттельно одной координаты для точек плоскости
+    [[nodiscard]] double foundDeltaX() const;
+    [[nodiscard]] double foundDeltaY() const;
+    [[nodiscard]] double foundDeltaZ() const;
+
+    [[nodiscard]] double foundMaxOfThree(double a, double b, double c) const;
+    [[nodiscard]] double foundMinOfThree(double a, double b, double c) const;
+
 public:
     Plane(Node& n1,
           Node& n2,
@@ -39,7 +45,7 @@ public:
     // Метод который позволяет определить могут ли две плоскости явзятся гранями одной ячейки
     bool areSuitsPlane(const Plane& plane);
 
-    /*!
+    /*! TODO: Не работает для криволинейной сетки!
      * Метод, который позваляет определить точки пересечения сканирующих линий из point c с ребрами ячейки
      * @param point - точка на плоскости
      * @return если переданная точка находится в заданной области простасти, то позвращается true, PlaneIntersections

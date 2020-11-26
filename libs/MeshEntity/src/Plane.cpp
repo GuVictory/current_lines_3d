@@ -26,175 +26,213 @@ void Plane::setPlaneType() {
     if ( !this->checkIsCorrectPlane() ) {
         this->planeType = PlaneType::SAME_POINTS;
 
-    } else if ( this->nodes.at(0)->getPoint().getX() == this->nodes.at(1)->getPoint().getX() &&
-         this->nodes.at(1)->getPoint().getX() == this->nodes.at(2)->getPoint().getX() &&
-         this->nodes.at(2)->getPoint().getX() == this->nodes.at(3)->getPoint().getX() ) {
-
-        this->planeType = PlaneType::YZ;
-
-    } else if ( this->nodes.at(0)->getPoint().getZ() == this->nodes.at(1)->getPoint().getZ() &&
-                this->nodes.at(1)->getPoint().getZ() == this->nodes.at(2)->getPoint().getZ() &&
-                this->nodes.at(2)->getPoint().getZ() == this->nodes.at(3)->getPoint().getZ() ) {
-
-        this->planeType = PlaneType::XY;
-    } else if ( this->nodes.at(0)->getPoint().getY() == this->nodes.at(1)->getPoint().getY() &&
-                this->nodes.at(1)->getPoint().getY() == this->nodes.at(2)->getPoint().getY() &&
-                this->nodes.at(2)->getPoint().getY() == this->nodes.at(3)->getPoint().getY() ) {
-
-        this->planeType = PlaneType::XZ;
     } else {
-        this->planeType = PlaneType::ERR;
+        double deltaX = this->foundDeltaX();
+        double deltaY = this->foundDeltaY();
+        double deltaZ = this->foundDeltaZ();
+
+        double minDelta = this->foundMinOfThree(deltaX, deltaY, deltaZ);
+
+        if ( deltaX ==  minDelta ) {
+            this->planeType = PlaneType::LEFT_RIGHT;
+
+        } else if ( deltaY ==  minDelta ) {
+            this->planeType = PlaneType::FRONT_BACK;
+
+        } else if ( deltaZ ==  minDelta ) {
+            this->planeType = PlaneType::TOP_BOTTOM;
+
+        } else {
+            this->planeType = PlaneType::ERR;
+        }
     }
 }
 
 void Plane::mainNodesSort() {
     switch (this->planeType) {
-        case PlaneType::YZ:
-            sortYZ();
+        case PlaneType::LEFT_RIGHT:
+            sortLEFT_RIGHT();
             break;
-        case PlaneType::XY:
-            sortXY();
+        case PlaneType::FRONT_BACK:
+            sortFRONT_BACK();
             break;
-        case PlaneType::XZ:
-            sortXZ();
+        case PlaneType::TOP_BOTTOM:
+            sortTOP_BOTTOM();
             break;
-        case PlaneType::SAME_POINTS:
+        default:
             break;
     }
 }
 
-void Plane::sortYZ() {
-    while(true) {
-        // Проверим условие отсортированности
-        // TODO: Вышло громоздко, так что, вероятно, надо пофиксить
-        if ( checkYZ() &&
-                this->nodes.at(0)->getPoint().getY() < this->nodes.at(1)->getPoint().getY() &&
-                this->nodes.at(1)->getPoint().getZ() > this->nodes.at(2)->getPoint().getZ() &&
-                this->nodes.at(2)->getPoint().getY() > this->nodes.at(3)->getPoint().getY() &&
-                this->nodes.at(3)->getPoint().getZ() < this->nodes.at(0)->getPoint().getZ() ) {
-            return;
-        }
+void Plane::sortLEFT_RIGHT() {
+    std::vector<std::pair<double, int>> xData;
+    std::vector<std::pair<double, int>> yData;
+    std::vector<std::pair<double, int>> zData;
 
-        if ( checkYZ() ) {
+    std::vector<int> resultPosition = std::vector<int>(4);
 
-            if (this->nodes.at(0)->getPoint().getY() > this->nodes.at(1)->getPoint().getY()) {
-                std::swap(this->nodes.at(0), this->nodes.at(1));
-            }
-            if ( this->nodes.at(1)->getPoint().getZ() < this->nodes.at(2)->getPoint().getZ() ) {
-                std::swap(this->nodes.at(1), this->nodes.at(2));
-            }
-            if ( this->nodes.at(2)->getPoint().getY() < this->nodes.at(3)->getPoint().getY() ) {
-                std::swap(this->nodes.at(2), this->nodes.at(3));
-            }
-            if ( this->nodes.at(3)->getPoint().getZ() > this->nodes.at(0)->getPoint().getZ() ) {
-                std::swap(this->nodes.at(3), this->nodes.at(0));
-            }
+    xData.reserve(4);
+    yData.reserve(4);
+    zData.reserve(4);
+    for (int i = 0; i < 4; ++i) {
+        xData.emplace_back(this->nodes[i]->getPoint().getX(), i);
+        yData.emplace_back(this->nodes[i]->getPoint().getY(), i);
+        zData.emplace_back(this->nodes[i]->getPoint().getZ(), i);
+    }
 
-        } else {
-            if ( this->nodes.at(0)->getPoint().getZ() != this->nodes.at(1)->getPoint().getZ() ) {
-                std::swap(this->nodes.at(1),this->nodes.at(2));
-            }
-            if ( this->nodes.at(0)->getPoint().getY() != this->nodes.at(3)->getPoint().getY() ) {
-                std::swap(this->nodes.at(3),this->nodes.at(1));
-            }
-        }
+    std::sort(xData.begin(), xData.end());
+    std::sort(yData.begin(), yData.end());
+    std::sort(zData.begin(), zData.end());
 
+    // Определяем первую вершину
+    if (zData[2].second == yData[0].second || zData[2].second == yData[1].second) {
+        resultPosition[0] = zData[2].second;
+    } else {
+        resultPosition[0] = zData[3].second;
+    }
 
+    // Определяем вторую вершину
+    if (zData[2].second != resultPosition[0]) {
+        resultPosition[1] = zData[2].second;
+    } else {
+        resultPosition[1] = zData[3].second;
+    }
+
+    // Определяем третью вершину
+    if (zData[0].second == yData[2].second || zData[0].second == yData[3].second) {
+        resultPosition[2] = zData[0].second;
+    } else {
+        resultPosition[2] = zData[1].second;
+    }
+
+    // Определяем четвертую вершину
+    if (zData[0].second != resultPosition[2]) {
+        resultPosition[3] = zData[0].second;
+    } else {
+        resultPosition[3] = zData[1].second;
+    }
+
+    auto oldNodes = std::vector<Node*>(this->nodes);
+    // На данном этапе у нас есть массив отсортированных индексов вершин
+    // Далее надо отсортировать настоящий массив вершин
+    for (int i = 0; i < 4; ++i) {
+        std::swap(this->nodes[i], oldNodes[resultPosition[i]]);
     }
 }
 
-bool Plane::checkYZ() {
-    return this->nodes.at(0)->getPoint().getZ() == this->nodes.at(1)->getPoint().getZ() &&
-           this->nodes.at(2)->getPoint().getZ() == this->nodes.at(3)->getPoint().getZ() &&
-           this->nodes.at(0)->getPoint().getY() == this->nodes.at(3)->getPoint().getY() &&
-           this->nodes.at(1)->getPoint().getY() == this->nodes.at(2)->getPoint().getY();
-}
 
-void Plane::sortXY() {
-    while (true) {
-        if ( checkXY() &&
-             this->nodes.at(0)->getPoint().getX() < this->nodes.at(1)->getPoint().getX() &&
-             this->nodes.at(1)->getPoint().getY() > this->nodes.at(2)->getPoint().getY() &&
-             this->nodes.at(2)->getPoint().getX() > this->nodes.at(3)->getPoint().getX() &&
-             this->nodes.at(3)->getPoint().getY() < this->nodes.at(0)->getPoint().getY() ) {
-            return;
-        }
+void Plane::sortTOP_BOTTOM() {
+    std::vector<std::pair<double, int>> xData;
+    std::vector<std::pair<double, int>> yData;
+    std::vector<std::pair<double, int>> zData;
 
-        if ( checkXY() ) {
+    std::vector<int> resultPosition = std::vector<int>(4);
 
-            if ( this->nodes.at(0)->getPoint().getX() > this->nodes.at(1)->getPoint().getX() ) {
-                std::swap(this->nodes.at(0), this->nodes.at(1));
-            }
-            if ( this->nodes.at(1)->getPoint().getY() < this->nodes.at(2)->getPoint().getY() ) {
-                std::swap(this->nodes.at(1), this->nodes.at(2));
-            }
-            if ( this->nodes.at(2)->getPoint().getX() < this->nodes.at(3)->getPoint().getX() ) {
-                std::swap(this->nodes.at(2), this->nodes.at(3));
-            }
-            if ( this->nodes.at(3)->getPoint().getY() > this->nodes.at(0)->getPoint().getY() ) {
-                std::swap(this->nodes.at(3), this->nodes.at(0));
-            }
+    xData.reserve(4);
+    yData.reserve(4);
+    zData.reserve(4);
+    for (int i = 0; i < 4; ++i) {
+        xData.emplace_back(this->nodes[i]->getPoint().getX(), i);
+        yData.emplace_back(this->nodes[i]->getPoint().getY(), i);
+        zData.emplace_back(this->nodes[i]->getPoint().getZ(), i);
+    }
 
-        } else {
-            if ( this->nodes.at(0)->getPoint().getY() != this->nodes.at(1)->getPoint().getY() ) {
-                std::swap(this->nodes.at(1),this->nodes.at(2));
-            }
-            if ( this->nodes.at(0)->getPoint().getX() != this->nodes.at(3)->getPoint().getX() ) {
-                std::swap(this->nodes.at(3),this->nodes.at(1));
-            }
-        }
+    std::sort(xData.begin(), xData.end());
+    std::sort(yData.begin(), yData.end());
+    std::sort(zData.begin(), zData.end());
+
+    // Определяем первую вершину
+    if (yData[2].second == xData[0].second || yData[2].second == xData[1].second) {
+        resultPosition[0] = yData[2].second;
+    } else {
+        resultPosition[0] = yData[3].second;
+    }
+
+    // Определяем вторую вершину
+    if (yData[2].second != resultPosition[0]) {
+        resultPosition[1] = yData[2].second;
+    } else {
+        resultPosition[1] = yData[3].second;
+    }
+
+    // Определяем третью вершину
+    if (yData[0].second == xData[2].second || yData[0].second == xData[3].second) {
+        resultPosition[2] = yData[0].second;
+    } else {
+        resultPosition[2] = yData[1].second;
+    }
+
+    // Определяем четвертую вершину
+    if (yData[0].second != resultPosition[2]) {
+        resultPosition[3] = yData[0].second;
+    } else {
+        resultPosition[3] = yData[1].second;
+    }
+
+    auto oldNodes = std::vector<Node*>(this->nodes);
+    // На данном этапе у нас есть массив отсортированных индексов вершин
+    // Далее надо отсортировать настоящий массив вершин
+    for (int i = 0; i < 4; ++i) {
+        std::swap(this->nodes[i], oldNodes[resultPosition[i]]);
     }
 }
 
-bool Plane::checkXY() {
-    return this->nodes.at(0)->getPoint().getY() == this->nodes.at(1)->getPoint().getY() &&
-           this->nodes.at(2)->getPoint().getY() == this->nodes.at(3)->getPoint().getY() &&
-           this->nodes.at(0)->getPoint().getX() == this->nodes.at(3)->getPoint().getX() &&
-           this->nodes.at(1)->getPoint().getX() == this->nodes.at(2)->getPoint().getX();
-}
+void Plane::sortFRONT_BACK() {
+    std::vector<std::pair<double, int>> xData;
+    std::vector<std::pair<double, int>> yData;
+    std::vector<std::pair<double, int>> zData;
 
-void Plane::sortXZ() {
-    while (true) {
-        if ( checkXZ() &&
-             this->nodes.at(0)->getPoint().getX() < this->nodes.at(1)->getPoint().getX() &&
-             this->nodes.at(1)->getPoint().getZ() > this->nodes.at(2)->getPoint().getZ() &&
-             this->nodes.at(2)->getPoint().getX() > this->nodes.at(3)->getPoint().getX() &&
-             this->nodes.at(3)->getPoint().getZ() < this->nodes.at(0)->getPoint().getZ() ) {
-            return;
-        }
+    std::vector<int> resultPosition = std::vector<int>(4);
 
-        if ( checkXZ() ) {
+    xData.reserve(4);
+    yData.reserve(4);
+    zData.reserve(4);
+    for (int i = 0; i < 4; ++i) {
+        xData.emplace_back(this->nodes[i]->getPoint().getX(), i);
+        yData.emplace_back(this->nodes[i]->getPoint().getY(), i);
+        zData.emplace_back(this->nodes[i]->getPoint().getZ(), i);
+    }
 
-            if ( this->nodes.at(0)->getPoint().getX() > this->nodes.at(1)->getPoint().getX() ) {
-                std::swap(this->nodes.at(0), this->nodes.at(1));
-            }
-            if ( this->nodes.at(1)->getPoint().getZ() < this->nodes.at(2)->getPoint().getZ() ) {
-                std::swap(this->nodes.at(1), this->nodes.at(2));
-            }
-            if ( this->nodes.at(2)->getPoint().getX() < this->nodes.at(3)->getPoint().getX() ) {
-                std::swap(this->nodes.at(2), this->nodes.at(3));
-            }
-            if ( this->nodes.at(3)->getPoint().getZ() > this->nodes.at(0)->getPoint().getZ() ) {
-                std::swap(this->nodes.at(3), this->nodes.at(0));
-            }
+    std::sort(xData.begin(), xData.end());
+    std::sort(yData.begin(), yData.end());
+    std::sort(zData.begin(), zData.end());
 
-        } else {
-            if ( this->nodes.at(0)->getPoint().getZ() != this->nodes.at(1)->getPoint().getZ() ) {
-                std::swap(this->nodes.at(1),this->nodes.at(2));
-            }
-            if ( this->nodes.at(0)->getPoint().getX() != this->nodes.at(3)->getPoint().getX() ) {
-                std::swap(this->nodes.at(3),this->nodes.at(1));
-            }
-        }
+    // Определяем первую вершину
+    if (zData[2].second == xData[0].second || zData[2].second == xData[1].second) {
+        resultPosition[0] = zData[2].second;
+    } else {
+        resultPosition[0] = zData[3].second;
+    }
+
+    // Определяем вторую вершину
+    if (zData[2].second != resultPosition[0]) {
+        resultPosition[1] = zData[2].second;
+    } else {
+        resultPosition[1] = zData[3].second;
+    }
+
+    // Определяем третью вершину
+    if (zData[0].second == xData[2].second || zData[0].second == xData[3].second) {
+        resultPosition[2] = zData[0].second;
+    } else {
+        resultPosition[2] = zData[1].second;
+    }
+
+    // Определяем четвертую вершину
+    if (zData[0].second != resultPosition[2]) {
+        resultPosition[3] = zData[0].second;
+    } else {
+        resultPosition[3] = zData[1].second;
+    }
+
+    auto oldNodes = std::vector<Node*>(this->nodes);
+    // На данном этапе у нас есть массив отсортированных индексов вершин
+    // Далее надо отсортировать настоящий массив вершин
+    for (int i = 0; i < 4; ++i) {
+        std::swap(this->nodes[i], oldNodes[resultPosition[i]]);
     }
 }
 
-bool Plane::checkXZ() {
-    return this->nodes.at(0)->getPoint().getZ() == this->nodes.at(1)->getPoint().getZ() &&
-           this->nodes.at(2)->getPoint().getZ() == this->nodes.at(3)->getPoint().getZ() &&
-           this->nodes.at(0)->getPoint().getX() == this->nodes.at(3)->getPoint().getX() &&
-           this->nodes.at(1)->getPoint().getX() == this->nodes.at(2)->getPoint().getX();
-}
 
 PlaneType Plane::getType() {
     return this->planeType;
@@ -240,7 +278,7 @@ std::pair<bool, PlaneIntersections*> Plane::getPlaneIntersections(const Point &p
 
     // Исходя из типа ячейки будем искать пересечения
     switch (this->planeType) {
-        case YZ: {
+        case LEFT_RIGHT: {
             // Произведем проверку, что точка находится на плоскости
             if (round(point.getX() * 100) / 100 != round(this->nodes[0]->getPoint().getX() * 100) / 100) {
                 return std::make_pair(false, new PlaneIntersections());
@@ -263,7 +301,7 @@ std::pair<bool, PlaneIntersections*> Plane::getPlaneIntersections(const Point &p
                                                                          *new Point(*minZ),
                                                                          *new Point(*maxZ)));
         }
-        case XY: {
+        case TOP_BOTTOM: {
             // Произведем проверку, что точка находится на плоскости
             if (round(point.getZ() * 100) / 100 != round(this->nodes[0]->getPoint().getZ() * 100) / 100) {
                 return std::make_pair(false, new PlaneIntersections());
@@ -281,7 +319,7 @@ std::pair<bool, PlaneIntersections*> Plane::getPlaneIntersections(const Point &p
 
             return std::make_pair(true, new PlaneIntersections(*minX, *maxX, *minY, *maxY, *new Point(), *new Point()));
         }
-        case XZ: {
+        case FRONT_BACK: {
             // Произведем проверку, что точка находится на плоскости
             if (round(point.getY() * 100) / 100 != round(this->nodes[0]->getPoint().getY() * 100) / 100) {
                 return std::make_pair(false, new PlaneIntersections());
@@ -301,5 +339,49 @@ std::pair<bool, PlaneIntersections*> Plane::getPlaneIntersections(const Point &p
         }
         default:
             return std::make_pair(false, new PlaneIntersections());
+    }
+}
+
+double Plane::foundDeltaX() const {
+    double deltaX01 = abs(this->nodes.at(0)->getPoint().getX() - this->nodes.at(1)->getPoint().getX()),
+           deltaX12 = abs(this->nodes.at(1)->getPoint().getX() - this->nodes.at(2)->getPoint().getX()),
+           deltaX23 = abs(this->nodes.at(2)->getPoint().getX() - this->nodes.at(3)->getPoint().getX());
+
+    return this->foundMaxOfThree(deltaX01, deltaX12, deltaX23);
+}
+
+double Plane::foundDeltaY() const {
+    double  deltaY01 = abs(this->nodes.at(0)->getPoint().getY() - this->nodes.at(1)->getPoint().getY()),
+            deltaY12 = abs(this->nodes.at(1)->getPoint().getY() - this->nodes.at(2)->getPoint().getY()),
+            deltaY23 = abs(this->nodes.at(2)->getPoint().getY() - this->nodes.at(3)->getPoint().getY());
+
+    return this->foundMaxOfThree(deltaY01, deltaY12, deltaY23);
+}
+
+double Plane::foundDeltaZ() const {
+    double  deltaZ01 = abs(this->nodes.at(0)->getPoint().getZ() - this->nodes.at(1)->getPoint().getZ()),
+            deltaZ12 = abs(this->nodes.at(1)->getPoint().getZ() - this->nodes.at(2)->getPoint().getZ()),
+            deltaZ23 = abs(this->nodes.at(2)->getPoint().getZ() - this->nodes.at(3)->getPoint().getZ());
+
+    return this->foundMaxOfThree(deltaZ01, deltaZ12, deltaZ23);
+}
+
+double Plane::foundMaxOfThree(double a, double b, double c) const {
+    if (a >= b && a >= c) {
+        return a;
+    } else if (b >= a && b >= c) {
+        return b;
+    } else {
+        return c;
+    }
+}
+
+double Plane::foundMinOfThree(double a, double b, double c) const {
+    if (a <= b && a <= c) {
+        return a;
+    } else if (b <= a && b <= c) {
+        return b;
+    } else {
+        return c;
     }
 }
