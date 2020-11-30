@@ -15,10 +15,16 @@ Plane::Plane(Node &n1, Node &n2, Node &n3, Node &n4) {
     this->planeType = PlaneType::ERR;
     setPlaneType();
     mainNodesSort();
+
+    this->generalFormOfPlane = new GeneralFormOfPlane(this->nodes[0]->getPoint(),
+                                                      this->nodes[1]->getPoint(),
+                                                      this->nodes[2]->getPoint(),
+                                                      this->nodes[3]->getPoint());
 }
 
 Plane::~Plane() {
     nodes.clear();
+    delete generalFormOfPlane;
 }
 
 // Метод, который устанавливает тип плоскости
@@ -384,4 +390,11 @@ double Plane::foundMinOfThree(double a, double b, double c) const {
     } else {
         return c;
     }
+}
+
+double Plane::getPositionOfPoint(const Point &point) {
+    return this->generalFormOfPlane->A * point.getX()
+            + this->generalFormOfPlane->B * point.getY()
+            + this->generalFormOfPlane->C * point.getZ()
+            + this->generalFormOfPlane->D;
 }

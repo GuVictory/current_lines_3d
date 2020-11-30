@@ -6,7 +6,7 @@ add_library(MeshEntity STATIC
                     src/Line.cpp
                     src/Plane.cpp
                     src/Cell.cpp
-                    src/Mesh.cpp)
+                    src/Mesh.cpp include/GeneralFormOfPlane.h)
 
 # Применяется лишь для цели "MeshEntity":
 target_include_directories(MeshEntity PUBLIC ./include ${CMAKE_CURRENT_SOURCE_DIR})

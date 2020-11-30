@@ -141,29 +141,6 @@ bool Line::areParallel(const Line &line) {
         lambdaE = line.generalFormOfLine->e == 0 ? 0 : this->generalFormOfLine->e / line.generalFormOfLine->e;
     }
 
-    /* if( this->generalFormOfLine->x0 == 0
-        && line.generalFormOfLine->x0 == 0
-        && this->generalFormOfLine->q == 0
-        && line.generalFormOfLine->q == 0) {
-        return lambdaW == lambdaE;
-    }
-
-    if( this->generalFormOfLine->y0 == 0
-        && line.generalFormOfLine->y0 == 0
-        && this->generalFormOfLine->w == 0
-        && line.generalFormOfLine->w == 0) {
-        return lambdaQ == lambdaW;
-    }
-
-    if( this->generalFormOfLine->z0 == 0
-        && line.generalFormOfLine->z0 == 0
-        && this->generalFormOfLine->e == 0
-        && line.generalFormOfLine->e == 0) {
-        return lambdaQ == lambdaW;
-    }
-
-     */
-
     return lambdaQ == lambdaW && lambdaW == lambdaE;
 }
 
@@ -240,3 +217,5 @@ Line &Line::getScanLineOZ(const Point &point) {
     Line* scanLine = new Line(point, *new Point(point.getX(), point.getY(), point.getZ() + 0.1));
     return *scanLine;
 }
+
+

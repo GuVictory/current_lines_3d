@@ -91,6 +91,8 @@ public:
      */
     static Line& getScanLineOZ(const Point& point);
 
+
+
     bool operator==(const Line& line) const;
 
     friend std::ostream& operator<<(std::ostream &out, const Line &line);

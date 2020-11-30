@@ -158,6 +158,48 @@ bool Cell::containsPoint(const Point &point) {
         return false;
     }
 
+    // TODO: Добавить детальную локализацию точки
+
+    std::vector<double> result;
+    result.reserve(6);
+
+    auto rightPlane = this->getRightPlane();
+    double test = rightPlane.getPositionOfPoint(point);
+    if (rightPlane.getPositionOfPoint(point) < 0) {
+        //return false;
+    }
+
+    auto leftPlane = this->getLeftPlane();
+    test = leftPlane.getPositionOfPoint(point);
+    if (leftPlane.getPositionOfPoint(point) > 0) {
+        //return false;
+    }
+
+
+    auto topPlane = this->getRightPlane();
+    test = topPlane.getPositionOfPoint(point);
+    if (topPlane.getPositionOfPoint(point) < 0) {
+        //return false;
+    }
+
+    auto bottomPlane = this->getLeftPlane();
+    test = bottomPlane.getPositionOfPoint(point);
+    if (bottomPlane.getPositionOfPoint(point) > 0) {
+        //return false;
+    }
+
+    auto frontPlane = this->getRightPlane();
+    test = frontPlane.getPositionOfPoint(point);
+    if (frontPlane.getPositionOfPoint(point) < 0) {
+        //return false;
+    }
+
+    auto backPlane = this->getLeftPlane();
+    test = backPlane.getPositionOfPoint(point);
+    if (backPlane.getPositionOfPoint(point) > 0) {
+        //return false;
+    }
+
     return true;
 }
 

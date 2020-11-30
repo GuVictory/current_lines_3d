@@ -9,11 +9,13 @@
 #include <PlaneType.h>
 #include <vector>
 #include "PlaneIntersections.h"
+#include "GeneralFormOfPlane.h"
 
 class Plane {
 private:
     PlaneType planeType;
     std::vector<Node*> nodes;
+    GeneralFormOfPlane* generalFormOfPlane;
 
     void setPlaneType();
     void mainNodesSort();
@@ -56,21 +58,24 @@ public:
 
     bool operator==(const Plane& plane) const;
 
-    Node* V1() const {
+    [[nodiscard]] Node* V1() const {
         return this->nodes[0];
     }
 
-    Node* V2() const {
+    [[nodiscard]] Node* V2() const {
         return this->nodes[1];
     }
 
-    Node* V3() const {
+    [[nodiscard]] Node* V3() const {
         return this->nodes[2];
     }
 
-    Node* V4() const {
+    [[nodiscard]] Node* V4() const {
         return this->nodes[3];
     }
+
+    //! Метод, который подставляет точку в стандартное уравнение плоскости
+    double getPositionOfPoint(const Point& point);
 };
 
 
